@@ -1,0 +1,12 @@
+# PREP HUB Backend - Render Deployment
+
+# Build command
+# npm install
+
+# Start command  
+# node server.js
+
+# Environment variables (set in Render dashboard):
+# PORT=3000
+# JWT_SECRET=your-secret-key-here
+# NODE_ENV=production
