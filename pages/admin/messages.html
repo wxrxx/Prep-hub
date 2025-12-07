@@ -5,18 +5,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ข้อความติดต่อ - Admin | PREP HUB</title>
-
-    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&family=Prompt:wght@300;400;500;600;700&display=swap"
-        rel="stylesheet">
-
-    <!-- CSS -->
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../../css/design-system.css">
     <link rel="stylesheet" href="../../css/home.css">
-
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     <style>
         .admin-layout {
             display: flex;
@@ -81,11 +75,11 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 32px;
+            margin-bottom: 24px;
         }
 
         .admin-title {
-            font-size: 1.75rem;
+            font-size: 1.5rem;
             font-weight: 700;
             color: #111827;
         }
@@ -101,6 +95,13 @@
             border-radius: 16px;
             padding: 24px;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            border-left: 4px solid #e5e7eb;
+            transition: all 0.2s;
+        }
+
+        .message-card.unread {
+            border-left-color: #f59e0b;
+            background: #fffbeb;
         }
 
         .message-header {
@@ -130,6 +131,7 @@
         .message-body {
             color: #4b5563;
             line-height: 1.6;
+            margin-bottom: 16px;
         }
 
         .message-date {
@@ -137,21 +139,9 @@
             font-size: 0.75rem;
         }
 
-        .badge-status {
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            font-weight: 500;
-        }
-
-        .badge-unread {
-            background: #fee2e2;
-            color: #991b1b;
-        }
-
-        .badge-read {
-            background: #d1fae5;
-            color: #065f46;
+        .message-actions {
+            display: flex;
+            gap: 8px;
         }
 
         .empty-state {
@@ -159,15 +149,6 @@
             padding: 60px;
             background: white;
             border-radius: 16px;
-        }
-
-        .empty-state-icon {
-            font-size: 3rem;
-            margin-bottom: 16px;
-        }
-
-        .empty-state-text {
-            color: #6b7280;
         }
 
         @media (max-width: 768px) {
@@ -184,91 +165,109 @@
 
 <body>
     <div class="admin-layout">
-        <!-- Sidebar -->
         <aside class="admin-sidebar">
-            <div class="logo">
-                <span class="logo-icon">📚</span>
-                <span class="logo-text">PREP HUB</span>
-            </div>
+            <div class="logo"><span class="logo-icon">📚</span><span class="logo-text">PREP HUB</span></div>
             <ul class="admin-nav">
                 <li class="admin-nav-item"><a href="index.html" class="admin-nav-link">📊 Dashboard</a></li>
                 <li class="admin-nav-item"><a href="courses.html" class="admin-nav-link">📚 คอร์สเรียน</a></li>
                 <li class="admin-nav-item"><a href="users.html" class="admin-nav-link">👥 ผู้ใช้งาน</a></li>
                 <li class="admin-nav-item"><a href="messages.html" class="admin-nav-link active">✉️ ข้อความ</a></li>
                 <li class="admin-nav-item"
-                    style="margin-top: 32px; padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.1);">
-                    <a href="../../index.html" class="admin-nav-link">🏠 กลับหน้าหลัก</a>
-                </li>
+                    style="margin-top: 32px; padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.1);"><a
+                        href="../../index.html" class="admin-nav-link">🏠 กลับหน้าหลัก</a></li>
                 <li class="admin-nav-item"><a href="#" class="admin-nav-link" onclick="logout()">🚪 ออกจากระบบ</a></li>
             </ul>
         </aside>
 
-        <!-- Main Content -->
         <main class="admin-main">
             <div class="admin-header">
                 <h1 class="admin-title">✉️ ข้อความติดต่อ</h1>
+                <span id="messageCount" style="color: #6b7280;">-</span>
             </div>
-
             <div class="message-list" id="messageList">
                 <div class="empty-state">
-                    <div class="empty-state-icon">📭</div>
-                    <p class="empty-state-text">กำลังโหลดข้อความ...</p>
+                    <div style="font-size: 3rem;">🔄</div>
+                    <p style="color: #6b7280;">กำลังโหลด...</p>
                 </div>
             </div>
         </main>
     </div>
 
     <script src="../../js/api.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
+        let messagesData = [];
+
         document.addEventListener('DOMContentLoaded', async () => {
             const user = auth.getUser();
-            if (!user || user.role !== 'admin') {
-                alert('คุณไม่มีสิทธิ์เข้าถึงหน้านี้');
-                window.location.href = '../auth/login.html';
+            if (!user || user.role !== 'admin') { window.location.href = '../auth/login.html'; return; }
+            loadMessages();
+        });
+
+        async function loadMessages() {
+            const container = document.getElementById('messageList');
+            try {
+                const response = await api.get('/api/messages');
+                messagesData = response.messages || [];
+                document.getElementById('messageCount').textContent = `${messagesData.length} ข้อความ`;
+                renderMessages();
+            } catch (e) {
+                container.innerHTML = `<div class="empty-state"><div style="font-size: 3rem;">📭</div><p style="color: #6b7280;">ยังไม่มีข้อความ</p></div>`;
+            }
+        }
+
+        function renderMessages() {
+            const container = document.getElementById('messageList');
+            if (messagesData.length === 0) {
+                container.innerHTML = `<div class="empty-state"><div style="font-size: 3rem;">📭</div><p style="color: #6b7280;">ยังไม่มีข้อความ</p></div>`;
                 return;
             }
+            container.innerHTML = messagesData.map(msg => `
+                <div class="message-card ${msg.status === 'unread' ? 'unread' : ''}">
+                    <div class="message-header">
+                        <div>
+                            <div class="message-sender">${msg.name}</div>
+                            <div class="message-email">${msg.email}</div>
+                        </div>
+                        <div class="message-date">${new Date(msg.created_at).toLocaleString('th-TH')}</div>
+                    </div>
+                    <div class="message-subject">${msg.subject}</div>
+                    <div class="message-body">${msg.message}</div>
+                    <div class="message-actions">
+                        ${msg.status === 'unread' ? `<button class="btn btn-ghost btn-sm" onclick="markRead(${msg.id})">✅ อ่านแล้ว</button>` : ''}
+                        <button class="btn btn-ghost btn-sm" onclick="deleteMessage(${msg.id})">🗑️ ลบ</button>
+                    </div>
+                </div>
+            `).join('');
+        }
 
+        async function markRead(id) {
             try {
-                // Note: This endpoint needs to be created on backend
-                const response = await api.get('/api/messages');
-                const messages = response.messages || [];
-                const container = document.getElementById('messageList');
-
-                if (messages.length === 0) {
-                    container.innerHTML = `
-                        <div class="empty-state">
-                            <div class="empty-state-icon">📭</div>
-                            <p class="empty-state-text">ยังไม่มีข้อความ</p>
-                        </div>
-                    `;
-                    return;
-                }
-
-                container.innerHTML = messages.map(msg => `
-                    <div class="message-card">
-                        <div class="message-header">
-                            <div>
-                                <div class="message-sender">${msg.name}</div>
-                                <div class="message-email">${msg.email}</div>
-                            </div>
-                            <div style="text-align: right;">
-                                <span class="badge-status ${msg.status === 'unread' ? 'badge-unread' : 'badge-read'}">${msg.status === 'unread' ? 'ยังไม่อ่าน' : 'อ่านแล้ว'}</span>
-                                <div class="message-date" style="margin-top: 4px;">${new Date(msg.created_at).toLocaleDateString('th-TH')}</div>
-                            </div>
-                        </div>
-                        <div class="message-subject">${msg.subject}</div>
-                        <div class="message-body">${msg.message}</div>
-                    </div>
-                `).join('');
-            } catch (error) {
-                document.getElementById('messageList').innerHTML = `
-                    <div class="empty-state">
-                        <div class="empty-state-icon">⚠️</div>
-                        <p class="empty-state-text">โหลดข้อมูลไม่สำเร็จ (API ยังไม่พร้อม)</p>
-                    </div>
-                `;
+                await api.put(`/api/messages/${id}/read`);
+                loadMessages();
+            } catch (err) {
+                Swal.fire('เกิดข้อผิดพลาด', err.message, 'error');
             }
-        });
+        }
+
+        async function deleteMessage(id) {
+            const result = await Swal.fire({
+                title: 'ลบข้อความนี้?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'ลบ',
+                cancelButtonText: 'ยกเลิก'
+            });
+            if (result.isConfirmed) {
+                try {
+                    await api.delete(`/api/messages/${id}`);
+                    Swal.fire('ลบสำเร็จ', '', 'success');
+                    loadMessages();
+                } catch (err) {
+                    Swal.fire('เกิดข้อผิดพลาด', err.message, 'error');
+                }
+            }
+        }
 
         function logout() { auth.logout(); }
     </script>

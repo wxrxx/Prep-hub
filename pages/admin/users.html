@@ -5,18 +5,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>จัดการผู้ใช้งาน - Admin | PREP HUB</title>
-
-    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&family=Prompt:wght@300;400;500;600;700&display=swap"
-        rel="stylesheet">
-
-    <!-- CSS -->
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../../css/design-system.css">
     <link rel="stylesheet" href="../../css/home.css">
-
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     <style>
         .admin-layout {
             display: flex;
@@ -81,11 +75,11 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 32px;
+            margin-bottom: 24px;
         }
 
         .admin-title {
-            font-size: 1.75rem;
+            font-size: 1.5rem;
             font-weight: 700;
             color: #111827;
         }
@@ -116,10 +110,6 @@
             color: #111827;
         }
 
-        .data-table tr:last-child td {
-            border-bottom: none;
-        }
-
         .data-table tr:hover {
             background: #f9fafb;
         }
@@ -128,11 +118,12 @@
             width: 40px;
             height: 40px;
             border-radius: 50%;
-            background: #e0f2fe;
+            background: linear-gradient(135deg, #0284c7, #0ea5e9);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.25rem;
+            color: white;
+            font-weight: 600;
         }
 
         .user-info {
@@ -177,31 +168,28 @@
 
 <body>
     <div class="admin-layout">
-        <!-- Sidebar -->
         <aside class="admin-sidebar">
-            <div class="logo">
-                <span class="logo-icon">📚</span>
-                <span class="logo-text">PREP HUB</span>
-            </div>
+            <div class="logo"><span class="logo-icon">📚</span><span class="logo-text">PREP HUB</span></div>
             <ul class="admin-nav">
                 <li class="admin-nav-item"><a href="index.html" class="admin-nav-link">📊 Dashboard</a></li>
                 <li class="admin-nav-item"><a href="courses.html" class="admin-nav-link">📚 คอร์สเรียน</a></li>
                 <li class="admin-nav-item"><a href="users.html" class="admin-nav-link active">👥 ผู้ใช้งาน</a></li>
                 <li class="admin-nav-item"><a href="messages.html" class="admin-nav-link">✉️ ข้อความ</a></li>
                 <li class="admin-nav-item"
-                    style="margin-top: 32px; padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.1);">
-                    <a href="../../index.html" class="admin-nav-link">🏠 กลับหน้าหลัก</a>
-                </li>
+                    style="margin-top: 32px; padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.1);"><a
+                        href="../../index.html" class="admin-nav-link">🏠 กลับหน้าหลัก</a></li>
                 <li class="admin-nav-item"><a href="#" class="admin-nav-link" onclick="logout()">🚪 ออกจากระบบ</a></li>
             </ul>
         </aside>
 
-        <!-- Main Content -->
         <main class="admin-main">
             <div class="admin-header">
                 <h1 class="admin-title">👥 จัดการผู้ใช้งาน</h1>
+                <div style="display: flex; gap: 12px;">
+                    <input type="text" id="searchInput" class="form-input" placeholder="ค้นหาผู้ใช้..."
+                        style="width: 250px;">
+                </div>
             </div>
-
             <table class="data-table">
                 <thead>
                     <tr>
@@ -215,7 +203,7 @@
                 </thead>
                 <tbody id="usersTable">
                     <tr>
-                        <td colspan="6" style="text-align: center; padding: 40px;">กำลังโหลด...</td>
+                        <td colspan="6" style="text-align:center;padding:40px;">กำลังโหลด...</td>
                     </tr>
                 </tbody>
             </table>
@@ -223,46 +211,100 @@
     </div>
 
     <script src="../../js/api.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
+        let usersData = [];
+
         document.addEventListener('DOMContentLoaded', async () => {
             const user = auth.getUser();
-            if (!user || user.role !== 'admin') {
-                alert('คุณไม่มีสิทธิ์เข้าถึงหน้านี้');
-                window.location.href = '../auth/login.html';
-                return;
-            }
+            if (!user || user.role !== 'admin') { window.location.href = '../auth/login.html'; return; }
+            loadUsers();
 
+            document.getElementById('searchInput').addEventListener('input', (e) => {
+                const term = e.target.value.toLowerCase();
+                const filtered = usersData.filter(u =>
+                    u.name.toLowerCase().includes(term) || u.email.toLowerCase().includes(term)
+                );
+                renderTable(filtered);
+            });
+        });
+
+        async function loadUsers() {
             try {
                 const response = await api.get('/api/users');
-                const usersList = response.users || [];
-                const tbody = document.getElementById('usersTable');
-
-                if (usersList.length === 0) {
-                    tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; padding: 40px;">ไม่พบข้อมูลผู้ใช้งาน</td></tr>';
-                    return;
-                }
-
-                tbody.innerHTML = usersList.map(u => `
-                    <tr>
-                        <td>${u.id}</td>
-                        <td>
-                            <div class="user-info">
-                                <div class="user-avatar">${u.avatar || '👤'}</div>
-                                <strong>${u.name}</strong>
-                            </div>
-                        </td>
-                        <td>${u.email}</td>
-                        <td><span class="badge-role ${u.role === 'admin' ? 'badge-admin' : 'badge-user'}">${u.role === 'admin' ? '👑 Admin' : '👤 User'}</span></td>
-                        <td>${new Date(u.created_at).toLocaleDateString('th-TH')}</td>
-                        <td>
-                            <button class="btn btn-ghost btn-sm" onclick="alert('ดูโปรไฟล์ ID: ${u.id}')">👁️</button>
-                        </td>
-                    </tr>
-                `).join('');
-            } catch (error) {
-                document.getElementById('usersTable').innerHTML = '<tr><td colspan="6" style="text-align: center; color: red;">โหลดข้อมูลไม่สำเร็จ</td></tr>';
+                usersData = response.users || [];
+                renderTable(usersData);
+            } catch (e) {
+                document.getElementById('usersTable').innerHTML = '<tr><td colspan="6" style="text-align:center;color:red;">โหลดไม่สำเร็จ</td></tr>';
             }
-        });
+        }
+
+        function renderTable(users) {
+            const tbody = document.getElementById('usersTable');
+            if (users.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:40px;">ไม่พบข้อมูล</td></tr>';
+                return;
+            }
+            tbody.innerHTML = users.map(u => `
+                <tr>
+                    <td>${u.id}</td>
+                    <td>
+                        <div class="user-info">
+                            <div class="user-avatar">${u.name ? u.name.substring(0, 2).toUpperCase() : '??'}</div>
+                            <strong>${u.name}</strong>
+                        </div>
+                    </td>
+                    <td>${u.email}</td>
+                    <td><span class="badge-role ${u.role === 'admin' ? 'badge-admin' : 'badge-user'}">${u.role === 'admin' ? '👑 Admin' : '👤 User'}</span></td>
+                    <td>${new Date(u.created_at).toLocaleDateString('th-TH')}</td>
+                    <td>
+                        <button class="btn btn-ghost btn-sm" onclick="changeRole(${u.id}, '${u.role}')">🔄</button>
+                        <button class="btn btn-ghost btn-sm" onclick="deleteUser(${u.id}, '${u.name}')">🗑️</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        async function changeRole(id, currentRole) {
+            const newRole = currentRole === 'admin' ? 'user' : 'admin';
+            const result = await Swal.fire({
+                title: 'เปลี่ยนสิทธิ์',
+                text: `เปลี่ยนเป็น ${newRole === 'admin' ? 'Admin' : 'User'}?`,
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'ยืนยัน',
+                cancelButtonText: 'ยกเลิก'
+            });
+            if (result.isConfirmed) {
+                try {
+                    await api.put(`/api/users/${id}/role`, { role: newRole });
+                    Swal.fire('สำเร็จ', 'เปลี่ยนสิทธิ์แล้ว', 'success');
+                    loadUsers();
+                } catch (err) {
+                    Swal.fire('เกิดข้อผิดพลาด', err.message, 'error');
+                }
+            }
+        }
+
+        async function deleteUser(id, name) {
+            const result = await Swal.fire({
+                title: 'ยืนยันการลบ?',
+                text: `ลบผู้ใช้ "${name}" ถาวร`,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'ลบ',
+                cancelButtonText: 'ยกเลิก'
+            });
+            if (result.isConfirmed) {
+                try {
+                    await api.delete(`/api/users/${id}`);
+                    Swal.fire('ลบสำเร็จ', '', 'success');
+                    loadUsers();
+                } catch (err) {
+                    Swal.fire('เกิดข้อผิดพลาด', err.message, 'error');
+                }
+            }
+        }
 
         function logout() { auth.logout(); }
     </script>

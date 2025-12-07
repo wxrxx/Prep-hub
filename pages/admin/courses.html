@@ -5,18 +5,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>จัดการคอร์สเรียน - Admin | PREP HUB</title>
-
-    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&family=Prompt:wght@300;400;500;600;700&display=swap"
-        rel="stylesheet">
-
-    <!-- CSS -->
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../../css/design-system.css">
     <link rel="stylesheet" href="../../css/home.css">
-
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     <style>
         .admin-layout {
             display: flex;
@@ -81,11 +75,11 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 32px;
+            margin-bottom: 24px;
         }
 
         .admin-title {
-            font-size: 1.75rem;
+            font-size: 1.5rem;
             font-weight: 700;
             color: #111827;
         }
@@ -116,34 +110,58 @@
             color: #111827;
         }
 
-        .data-table tr:last-child td {
-            border-bottom: none;
-        }
-
         .data-table tr:hover {
             background: #f9fafb;
-        }
-
-        .badge-status {
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            font-weight: 500;
-        }
-
-        .badge-active {
-            background: #d1fae5;
-            color: #065f46;
-        }
-
-        .badge-inactive {
-            background: #fee2e2;
-            color: #991b1b;
         }
 
         .btn-sm {
             padding: 8px 16px;
             font-size: 0.875rem;
+        }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 16px;
+            padding: 32px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 24px;
+        }
+
+        .modal-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
         }
 
         @media (max-width: 768px) {
@@ -160,31 +178,25 @@
 
 <body>
     <div class="admin-layout">
-        <!-- Sidebar -->
         <aside class="admin-sidebar">
-            <div class="logo">
-                <span class="logo-icon">📚</span>
-                <span class="logo-text">PREP HUB</span>
-            </div>
+            <div class="logo"><span class="logo-icon">📚</span><span class="logo-text">PREP HUB</span></div>
             <ul class="admin-nav">
                 <li class="admin-nav-item"><a href="index.html" class="admin-nav-link">📊 Dashboard</a></li>
                 <li class="admin-nav-item"><a href="courses.html" class="admin-nav-link active">📚 คอร์สเรียน</a></li>
                 <li class="admin-nav-item"><a href="users.html" class="admin-nav-link">👥 ผู้ใช้งาน</a></li>
                 <li class="admin-nav-item"><a href="messages.html" class="admin-nav-link">✉️ ข้อความ</a></li>
                 <li class="admin-nav-item"
-                    style="margin-top: 32px; padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.1);">
-                    <a href="../../index.html" class="admin-nav-link">🏠 กลับหน้าหลัก</a>
-                </li>
+                    style="margin-top: 32px; padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.1);"><a
+                        href="../../index.html" class="admin-nav-link">🏠 กลับหน้าหลัก</a></li>
                 <li class="admin-nav-item"><a href="#" class="admin-nav-link" onclick="logout()">🚪 ออกจากระบบ</a></li>
             </ul>
         </aside>
 
-        <!-- Main Content -->
         <main class="admin-main">
             <div class="admin-header">
                 <h1 class="admin-title">📚 จัดการคอร์สเรียน</h1>
+                <button class="btn btn-primary" onclick="openAddModal()">➕ เพิ่มคอร์สใหม่</button>
             </div>
-
             <table class="data-table">
                 <thead>
                     <tr>
@@ -193,57 +205,180 @@
                         <th>หมวดหมู่</th>
                         <th>สถาบัน</th>
                         <th>ราคา</th>
-                        <th>สถานะ</th>
                         <th>จัดการ</th>
                     </tr>
                 </thead>
                 <tbody id="coursesTable">
                     <tr>
-                        <td colspan="7" style="text-align: center; padding: 40px;">กำลังโหลด...</td>
+                        <td colspan="6" style="text-align:center;padding:40px;">กำลังโหลด...</td>
                     </tr>
                 </tbody>
             </table>
         </main>
     </div>
 
+    <!-- Add/Edit Modal -->
+    <div class="modal-overlay" id="courseModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="modalTitle">เพิ่มคอร์สใหม่</h2>
+                <button class="modal-close" onclick="closeModal()">&times;</button>
+            </div>
+            <form id="courseForm">
+                <input type="hidden" id="courseId">
+                <div class="form-group">
+                    <label class="form-label">ชื่อคอร์ส *</label>
+                    <input type="text" id="title" class="form-input" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">หมวดหมู่</label>
+                    <select id="category" class="form-input">
+                        <option value="ม.6">ม.6</option>
+                        <option value="ม.4">ม.4</option>
+                        <option value="สายแพทย์">สายแพทย์</option>
+                        <option value="มหาวิทยาลัย">มหาวิทยาลัย</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">วิชา</label>
+                    <input type="text" id="subject" class="form-input" placeholder="เช่น คณิตศาสตร์, ฟิสิกส์">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">สถาบัน</label>
+                    <input type="text" id="brand" class="form-input" placeholder="เช่น We by The Brain">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">อาจารย์ผู้สอน</label>
+                    <input type="text" id="teacher" class="form-input">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">ราคา (บาท) *</label>
+                    <input type="number" id="price" class="form-input" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">รูปภาพ URL</label>
+                    <input type="text" id="image_url" class="form-input" placeholder="https://...">
+                </div>
+                <button type="submit" class="btn btn-primary" style="width:100%;">บันทึก</button>
+            </form>
+        </div>
+    </div>
+
     <script src="../../js/api.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
+        let coursesData = [];
+
         document.addEventListener('DOMContentLoaded', async () => {
             const user = auth.getUser();
-            if (!user || user.role !== 'admin') {
-                alert('คุณไม่มีสิทธิ์เข้าถึงหน้านี้');
-                window.location.href = '../auth/login.html';
-                return;
-            }
+            if (!user || user.role !== 'admin') { window.location.href = '../auth/login.html'; return; }
+            loadCourses();
+        });
 
+        async function loadCourses() {
             try {
                 const response = await courses.getAll();
-                const coursesList = response.courses || [];
-                const tbody = document.getElementById('coursesTable');
+                coursesData = response.courses || [];
+                renderTable();
+            } catch (e) {
+                document.getElementById('coursesTable').innerHTML = '<tr><td colspan="6" style="text-align:center;color:red;">โหลดไม่สำเร็จ</td></tr>';
+            }
+        }
 
-                if (coursesList.length === 0) {
-                    tbody.innerHTML = '<tr><td colspan="7" style="text-align: center; padding: 40px;">ไม่พบข้อมูลคอร์ส</td></tr>';
-                    return;
+        function renderTable() {
+            const tbody = document.getElementById('coursesTable');
+            if (coursesData.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:40px;">ไม่พบข้อมูล</td></tr>';
+                return;
+            }
+            tbody.innerHTML = coursesData.map(c => `
+                <tr>
+                    <td>${c.id}</td>
+                    <td><strong>${c.title}</strong></td>
+                    <td>${c.category || '-'}</td>
+                    <td>${c.brand || '-'}</td>
+                    <td>฿${(c.price || 0).toLocaleString()}</td>
+                    <td>
+                        <button class="btn btn-ghost btn-sm" onclick="editCourse(${c.id})">✏️</button>
+                        <button class="btn btn-ghost btn-sm" onclick="deleteCourse(${c.id})">🗑️</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function openAddModal() {
+            document.getElementById('modalTitle').textContent = 'เพิ่มคอร์สใหม่';
+            document.getElementById('courseForm').reset();
+            document.getElementById('courseId').value = '';
+            document.getElementById('courseModal').classList.add('active');
+        }
+
+        function editCourse(id) {
+            const course = coursesData.find(c => c.id === id);
+            if (!course) return;
+            document.getElementById('modalTitle').textContent = 'แก้ไขคอร์ส';
+            document.getElementById('courseId').value = course.id;
+            document.getElementById('title').value = course.title || '';
+            document.getElementById('category').value = course.category || 'ม.6';
+            document.getElementById('subject').value = course.subject || '';
+            document.getElementById('brand').value = course.brand || '';
+            document.getElementById('teacher').value = course.teacher || '';
+            document.getElementById('price').value = course.price || 0;
+            document.getElementById('image_url').value = course.image_url || '';
+            document.getElementById('courseModal').classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('courseModal').classList.remove('active');
+        }
+
+        document.getElementById('courseForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const id = document.getElementById('courseId').value;
+            const data = {
+                title: document.getElementById('title').value,
+                category: document.getElementById('category').value,
+                subject: document.getElementById('subject').value,
+                brand: document.getElementById('brand').value,
+                teacher: document.getElementById('teacher').value,
+                price: parseInt(document.getElementById('price').value),
+                image_url: document.getElementById('image_url').value
+            };
+
+            try {
+                if (id) {
+                    await api.put(`/api/courses/${id}`, data);
+                    Swal.fire('สำเร็จ', 'อัปเดตคอร์สแล้ว', 'success');
+                } else {
+                    await api.post('/api/courses', data);
+                    Swal.fire('สำเร็จ', 'เพิ่มคอร์สใหม่แล้ว', 'success');
                 }
-
-                tbody.innerHTML = coursesList.map(course => `
-                    <tr>
-                        <td>${course.id}</td>
-                        <td><strong>${course.title}</strong></td>
-                        <td>${course.category}</td>
-                        <td>${course.brand}</td>
-                        <td>฿${course.price.toLocaleString()}</td>
-                        <td><span class="badge-status ${course.status === 'active' ? 'badge-active' : 'badge-inactive'}">${course.status === 'active' ? 'เปิดใช้งาน' : 'ปิดใช้งาน'}</span></td>
-                        <td>
-                            <button class="btn btn-ghost btn-sm" onclick="alert('แก้ไข ID: ${course.id}')">✏️</button>
-                            <button class="btn btn-ghost btn-sm" onclick="alert('ลบ ID: ${course.id}')">🗑️</button>
-                        </td>
-                    </tr>
-                `).join('');
-            } catch (error) {
-                document.getElementById('coursesTable').innerHTML = '<tr><td colspan="7" style="text-align: center; color: red;">โหลดข้อมูลไม่สำเร็จ</td></tr>';
+                closeModal();
+                loadCourses();
+            } catch (err) {
+                Swal.fire('เกิดข้อผิดพลาด', err.message, 'error');
             }
         });
+
+        async function deleteCourse(id) {
+            const result = await Swal.fire({
+                title: 'ยืนยันการลบ?',
+                text: 'คอร์สนี้จะถูกลบถาวร',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'ลบ',
+                cancelButtonText: 'ยกเลิก'
+            });
+            if (result.isConfirmed) {
+                try {
+                    await api.delete(`/api/courses/${id}`);
+                    Swal.fire('ลบสำเร็จ', '', 'success');
+                    loadCourses();
+                } catch (err) {
+                    Swal.fire('เกิดข้อผิดพลาด', err.message, 'error');
+                }
+            }
+        }
 
         function logout() { auth.logout(); }
     </script>
