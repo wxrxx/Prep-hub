@@ -53,10 +53,23 @@ async function initializeDatabase() {
             students_count INTEGER DEFAULT 0,
             image_url TEXT,
             highlights TEXT,
+            is_featured INTEGER DEFAULT 0,
             status TEXT DEFAULT 'active',
             created_at DATETIME DEFAULT CURRENT_TIMESTAMP
         )
     `);
+
+    // Migration: Add is_featured column if it doesn't exist
+    try {
+        const courseInfo = db.prepare('PRAGMA table_info(courses)').all();
+        const hasFeatured = courseInfo.some(col => col.name === 'is_featured');
+        if (!hasFeatured) {
+            console.log('🔄 Migrating: Adding is_featured column to courses table...');
+            db.exec('ALTER TABLE courses ADD COLUMN is_featured INTEGER DEFAULT 0');
+        }
+    } catch (error) {
+        console.error('Migration error:', error);
+    }
 
     // Create Favorites table
     db.exec(`

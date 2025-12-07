@@ -339,6 +339,7 @@
                         <th>หมวดหมู่</th>
                         <th>สถาบัน</th>
                         <th>ราคา</th>
+                        <th>ยอดนิยม</th>
                         <th>จัดการ</th>
                     </tr>
                 </thead>
@@ -457,6 +458,9 @@
                     <td>${c.brand || '-'}</td>
                     <td>฿${(c.price || 0).toLocaleString()}</td>
                     <td>
+                        <button class="btn btn-ghost btn-sm" onclick="toggleFeatured(${c.id})" title="${c.is_featured ? 'นำออกจากยอดนิยม' : 'เพิ่มเป็นยอดนิยม'}" style="font-size: 1.25rem;">${c.is_featured ? '⭐' : '☆'}</button>
+                    </td>
+                    <td>
                         <button class="btn btn-ghost btn-sm" onclick="editCourse(${c.id})">✏️</button>
                         <button class="btn btn-ghost btn-sm" onclick="deleteCourse(${c.id})">🗑️</button>
                     </td>
@@ -550,6 +554,21 @@
                 } catch (err) {
                     Swal.fire({ icon: 'error', title: 'เกิดข้อผิดพลาด', text: err.message });
                 }
+            }
+        }
+
+        async function toggleFeatured(id) {
+            try {
+                const response = await api.put(`/api/courses/${id}/featured`);
+                Swal.fire({
+                    icon: 'success',
+                    title: response.is_featured ? '⭐ เพิ่มเป็นยอดนิยมแล้ว' : '☆ นำออกจากยอดนิยมแล้ว',
+                    timer: 1500,
+                    showConfirmButton: false
+                });
+                loadCourses();
+            } catch (err) {
+                Swal.fire({ icon: 'error', title: 'เกิดข้อผิดพลาด', text: err.message });
             }
         }
 

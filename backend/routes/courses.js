@@ -114,6 +114,59 @@ router.get('/categories/list', (req, res) => {
     }
 });
 
+// GET /api/courses/featured - Get featured/popular courses
+router.get('/featured', (req, res) => {
+    try {
+        const featuredCourses = db.all(`
+            SELECT * FROM courses 
+            WHERE status = 'active' AND is_featured = 1 
+            ORDER BY students_count DESC 
+            LIMIT 10
+        `);
+
+        // Parse highlights JSON
+        const parsedCourses = featuredCourses.map(course => ({
+            ...course,
+            highlights: course.highlights ? JSON.parse(course.highlights) : []
+        }));
+
+        res.json({ courses: parsedCourses });
+
+    } catch (error) {
+        console.error('Get featured courses error:', error);
+        res.status(500).json({ error: 'เกิดข้อผิดพลาด' });
+    }
+});
+
+// PUT /api/courses/:id/featured - Toggle featured status (Admin only)
+router.put('/:id/featured', authenticateToken, requireAdmin, (req, res) => {
+    try {
+        const { is_featured } = req.body;
+        const courseId = req.params.id;
+
+        // Check course exists
+        const course = db.get('SELECT id, is_featured FROM courses WHERE id = ?', [courseId]);
+        if (!course) {
+            return res.status(404).json({ error: 'ไม่พบคอร์สนี้' });
+        }
+
+        // Toggle or set directly
+        const newFeatured = is_featured !== undefined ? (is_featured ? 1 : 0) : (course.is_featured ? 0 : 1);
+
+        db.run('UPDATE courses SET is_featured = ? WHERE id = ?', [newFeatured, courseId]);
+
+        res.json({
+            success: true,
+            message: newFeatured ? 'เพิ่มเป็นคอร์สยอดนิยมแล้ว' : 'นำออกจากคอร์สยอดนิยมแล้ว',
+            is_featured: newFeatured === 1
+        });
+
+    } catch (error) {
+        console.error('Toggle featured error:', error);
+        res.status(500).json({ error: 'เกิดข้อผิดพลาด' });
+    }
+});
+
 // GET /api/courses/:id - Get single course
 router.get('/:id', optionalAuth, (req, res) => {
     try {
