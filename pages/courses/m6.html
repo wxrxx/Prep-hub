@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="คอร์สเรียน ม.6 - PREP HUB รวมคอร์สติว TGAT, TPAT, A-Level ครบจบ">
+    <title>คอร์สเรียน ม.6 - PREP HUB</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&family=Prompt:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="../../css/design-system.css">
+    <link rel="stylesheet" href="../../css/home.css">
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-content">
+                <div class="navbar-brand">
+                    <a href="../../index.html" class="logo">
+                        <span class="logo-icon">📚</span>
+                        <span class="logo-text">PREP HUB</span>
+                    </a>
+                </div>
+
+                <div class="navbar-menu">
+                    <a href="../../index.html" class="nav-link">หน้าหลัก</a>
+                    <a href="m6.html" class="nav-link active">คอร์สเรียน</a>
+                    <a href="../about.html" class="nav-link">เกี่ยวกับเรา</a>
+                    <a href="../contact.html" class="nav-link">ติดต่อเรา</a>
+                </div>
+
+                <div class="navbar-actions" id="navbarActions">
+                    <a href="../auth/login.html" class="btn btn-ghost btn-sm">เข้าสู่ระบบ</a>
+                    <a href="../auth/register.html" class="btn btn-primary btn-sm">สมัครสมาชิก</a>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <button class="mobile-menu-btn" id="mobileMenuBtn">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu Overlay -->
+    <div class="mobile-menu-overlay" id="mobileMenuOverlay"></div>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <div class="mobile-menu-header">
+            <div class="logo">
+                <span class="logo-icon">📚</span>
+                <span class="logo-text">PREP HUB</span>
+            </div>
+            <button class="mobile-menu-close" id="mobileMenuClose">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+        </div>
+
+        <nav class="mobile-menu-nav">
+            <a href="../../index.html" class="mobile-nav-link">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                    <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                </svg>
+                หน้าหลัก
+            </a>
+            <a href="m6.html" class="mobile-nav-link active">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"></path>
+                </svg>
+                คอร์สเรียน
+            </a>
+            <a href="../about.html" class="mobile-nav-link">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="12" y1="16" x2="12" y2="12"></line>
+                    <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                </svg>
+                เกี่ยวกับเรา
+            </a>
+        </nav>
+
+        <div class="mobile-menu-actions" id="mobileMenuActions">
+            <a href="../auth/login.html" class="btn btn-secondary">เข้าสู่ระบบ</a>
+            <a href="../auth/register.html" class="btn btn-primary">สมัครสมาชิก</a>
+        </div>
+    </div>
+
+    <!-- Page Header -->
+    <section class="hero" style="padding: 60px 0 40px;">
+        <div class="hero-background"></div>
+        <div class="container">
+            <div class="hero-content" style="text-align: center;">
+                <div class="hero-badge animate-fadeIn">
+                    <span class="badge badge-primary">🎓 คอร์สติว ม.6</span>
+                </div>
+                <h1 class="hero-title animate-fadeIn" style="font-size: 2.5rem;">คอร์สติวสอบ ม.6</h1>
+                <p class="hero-subtitle animate-fadeIn">TGAT, TPAT, A-Level และอื่นๆ รวมครบจบที่เดียว</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Courses Grid -->
+    <section class="popular-courses" style="padding-top: 20px;">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">คอร์สทั้งหมด</h2>
+                <p class="section-subtitle">เลือกคอร์สที่เหมาะกับคุณ</p>
+            </div>
+
+            <!-- Courses Grid -->
+            <div id="coursesGrid" class="courses-grid"
+                style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 24px; margin-top: 24px;">
+                <!-- Loading State -->
+                <div class="loading-state" style="grid-column: 1/-1; text-align: center; padding: 60px 0;">
+                    <div style="font-size: 3rem; margin-bottom: 16px;">🔄</div>
+                    <p style="color: var(--color-gray-500);">กำลังโหลดข้อมูลคอร์ส...</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer style="background: var(--color-gray-900); color: white; padding: 40px 0; margin-top: 60px;">
+        <div class="container" style="text-align: center;">
+            <div class="logo" style="justify-content: center; margin-bottom: 16px;">
+                <span class="logo-icon">📚</span>
+                <span class="logo-text" style="color: white;">PREP HUB</span>
+            </div>
+            <p style="color: var(--color-gray-400);">© 2024 PREP HUB - รวมคอร์สติวทุกที่ ไว้ที่เดียว</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="../../js/api.js"></script>
+    <script src="../../js/app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const grid = document.getElementById('coursesGrid');
+
+            try {
+                // Fetch courses with category 'ม.6'
+                const response = await courses.getAll({ category: 'ม.6' });
+                const coursesList = response.courses || [];
+
+                if (coursesList.length === 0) {
+                    grid.innerHTML = `
+                        <div style="grid-column: 1/-1; text-align: center; padding: 60px 0;">
+                            <div style="font-size: 3rem; margin-bottom: 16px;">📭</div>
+                            <p style="color: var(--color-gray-500);">ไม่พบคอร์สเรียนในหมวดหมู่นี้</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                // Render course cards
+                grid.innerHTML = coursesList.map(course => `
+                    <div class="card-course">
+                        <div class="course-image-wrapper">
+                            <img src="${course.image_url || 'https://via.placeholder.com/400x200/0ea5e9/ffffff?text=' + encodeURIComponent(course.subject)}" 
+                                 alt="${course.title}" class="card-course-image">
+                            <button class="btn-favorite" data-course-id="${course.id}">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                                </svg>
+                            </button>
+                        </div>
+                        <div class="card-course-body">
+                            <div class="course-badges">
+                                <span class="badge badge-primary">${course.category}</span>
+                                <span class="badge badge-gray">${course.subject}</span>
+                            </div>
+                            <h3 class="card-course-title">${course.title}</h3>
+                            <div class="card-course-meta">
+                                <span>📍 ${course.brand}</span>
+                                <span>👤 ${course.teacher}</span>
+                                <span>⏱️ ${course.duration}</span>
+                            </div>
+                            <div class="course-rating">
+                                <span class="stars">${'⭐'.repeat(Math.round(course.rating))}</span>
+                                <span class="rating-text">${course.rating} (${course.reviews_count} รีวิว)</span>
+                            </div>
+                            <div class="card-course-price">
+                                ฿${course.price.toLocaleString()}
+                                ${course.original_price ? `<span style="text-decoration: line-through; color: var(--color-gray-400); font-size: 0.875rem; margin-left: 8px;">฿${course.original_price.toLocaleString()}</span>` : ''}
+                            </div>
+                            <button class="btn btn-primary" style="width: 100%;" onclick="viewCourse(${course.id})">ดูรายละเอียด</button>
+                        </div>
+                    </div>
+                `).join('');
+
+            } catch (error) {
+                console.error('Failed to load courses:', error);
+                grid.innerHTML = `
+                    <div style="grid-column: 1/-1; text-align: center; padding: 60px 0;">
+                        <div style="font-size: 3rem; margin-bottom: 16px;">❌</div>
+                        <p style="color: var(--color-error);">เกิดข้อผิดพลาดในการโหลดข้อมูล</p>
+                        <p style="color: var(--color-gray-500); font-size: 0.875rem;">${error.message}</p>
+                    </div>
+                `;
+            }
+        });
+
+        function viewCourse(courseId) {
+            // For now, just show an alert. Later can redirect to course detail page.
+            alert('ดูรายละเอียดคอร์ส ID: ' + courseId);
+        }
+    </script>
+</body>
+
+</html>

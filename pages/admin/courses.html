@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>จัดการคอร์สเรียน - Admin | PREP HUB</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&family=Prompt:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="../../css/design-system.css">
+    <link rel="stylesheet" href="../../css/home.css">
+
+    <style>
+        .admin-layout {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .admin-sidebar {
+            width: 260px;
+            background: #111827;
+            color: white;
+            padding: 24px;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .admin-sidebar .logo {
+            margin-bottom: 32px;
+        }
+
+        .admin-sidebar .logo-text {
+            color: white;
+        }
+
+        .admin-nav {
+            list-style: none;
+        }
+
+        .admin-nav-item {
+            margin-bottom: 8px;
+        }
+
+        .admin-nav-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            border-radius: 8px;
+            color: #9ca3af;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .admin-nav-link:hover,
+        .admin-nav-link.active {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        .admin-nav-link.active {
+            background: #0284c7;
+        }
+
+        .admin-main {
+            flex: 1;
+            margin-left: 260px;
+            padding: 32px;
+            background: #f9fafb;
+        }
+
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 32px;
+        }
+
+        .admin-title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: #111827;
+        }
+
+        .data-table {
+            width: 100%;
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .data-table th,
+        .data-table td {
+            padding: 16px;
+            text-align: left;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .data-table th {
+            background: #f9fafb;
+            font-weight: 600;
+            color: #374151;
+            font-size: 0.875rem;
+        }
+
+        .data-table td {
+            color: #111827;
+        }
+
+        .data-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .data-table tr:hover {
+            background: #f9fafb;
+        }
+
+        .badge-status {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .badge-active {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .badge-inactive {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .btn-sm {
+            padding: 8px 16px;
+            font-size: 0.875rem;
+        }
+
+        @media (max-width: 768px) {
+            .admin-sidebar {
+                display: none;
+            }
+
+            .admin-main {
+                margin-left: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="admin-layout">
+        <!-- Sidebar -->
+        <aside class="admin-sidebar">
+            <div class="logo">
+                <span class="logo-icon">📚</span>
+                <span class="logo-text">PREP HUB</span>
+            </div>
+            <ul class="admin-nav">
+                <li class="admin-nav-item"><a href="index.html" class="admin-nav-link">📊 Dashboard</a></li>
+                <li class="admin-nav-item"><a href="courses.html" class="admin-nav-link active">📚 คอร์สเรียน</a></li>
+                <li class="admin-nav-item"><a href="users.html" class="admin-nav-link">👥 ผู้ใช้งาน</a></li>
+                <li class="admin-nav-item"><a href="messages.html" class="admin-nav-link">✉️ ข้อความ</a></li>
+                <li class="admin-nav-item"
+                    style="margin-top: 32px; padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.1);">
+                    <a href="../../index.html" class="admin-nav-link">🏠 กลับหน้าหลัก</a>
+                </li>
+                <li class="admin-nav-item"><a href="#" class="admin-nav-link" onclick="logout()">🚪 ออกจากระบบ</a></li>
+            </ul>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="admin-main">
+            <div class="admin-header">
+                <h1 class="admin-title">📚 จัดการคอร์สเรียน</h1>
+            </div>
+
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>ชื่อคอร์ส</th>
+                        <th>หมวดหมู่</th>
+                        <th>สถาบัน</th>
+                        <th>ราคา</th>
+                        <th>สถานะ</th>
+                        <th>จัดการ</th>
+                    </tr>
+                </thead>
+                <tbody id="coursesTable">
+                    <tr>
+                        <td colspan="7" style="text-align: center; padding: 40px;">กำลังโหลด...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </main>
+    </div>
+
+    <script src="../../js/api.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const user = auth.getUser();
+            if (!user || user.role !== 'admin') {
+                alert('คุณไม่มีสิทธิ์เข้าถึงหน้านี้');
+                window.location.href = '../auth/login.html';
+                return;
+            }
+
+            try {
+                const response = await courses.getAll();
+                const coursesList = response.courses || [];
+                const tbody = document.getElementById('coursesTable');
+
+                if (coursesList.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="7" style="text-align: center; padding: 40px;">ไม่พบข้อมูลคอร์ส</td></tr>';
+                    return;
+                }
+
+                tbody.innerHTML = coursesList.map(course => `
+                    <tr>
+                        <td>${course.id}</td>
+                        <td><strong>${course.title}</strong></td>
+                        <td>${course.category}</td>
+                        <td>${course.brand}</td>
+                        <td>฿${course.price.toLocaleString()}</td>
+                        <td><span class="badge-status ${course.status === 'active' ? 'badge-active' : 'badge-inactive'}">${course.status === 'active' ? 'เปิดใช้งาน' : 'ปิดใช้งาน'}</span></td>
+                        <td>
+                            <button class="btn btn-ghost btn-sm" onclick="alert('แก้ไข ID: ${course.id}')">✏️</button>
+                            <button class="btn btn-ghost btn-sm" onclick="alert('ลบ ID: ${course.id}')">🗑️</button>
+                        </td>
+                    </tr>
+                `).join('');
+            } catch (error) {
+                document.getElementById('coursesTable').innerHTML = '<tr><td colspan="7" style="text-align: center; color: red;">โหลดข้อมูลไม่สำเร็จ</td></tr>';
+            }
+        });
+
+        function logout() { auth.logout(); }
+    </script>
+</body>
+
+</html>

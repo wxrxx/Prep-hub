@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="เกี่ยวกับ PREP HUB - แพลตฟอร์มรวมคอร์สเรียนพิเศษที่ดีที่สุดสำหรับนักเรียนไทย">
+    <title>เกี่ยวกับเรา - PREP HUB</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&family=Prompt:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="../css/design-system.css">
+    <link rel="stylesheet" href="../css/home.css">
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-content">
+                <div class="navbar-brand">
+                    <a href="../index.html" class="logo">
+                        <span class="logo-icon">📚</span>
+                        <span class="logo-text">PREP HUB</span>
+                    </a>
+                </div>
+
+                <div class="navbar-menu">
+                    <a href="../index.html" class="nav-link">หน้าหลัก</a>
+                    <a href="courses/m6.html" class="nav-link">คอร์สเรียน</a>
+                    <a href="about.html" class="nav-link active">เกี่ยวกับเรา</a>
+                    <a href="contact.html" class="nav-link">ติดต่อเรา</a>
+                </div>
+
+                <div class="navbar-actions" id="navbarActions">
+                    <a href="auth/login.html" class="btn btn-ghost btn-sm">เข้าสู่ระบบ</a>
+                    <a href="auth/register.html" class="btn btn-primary btn-sm">สมัครสมาชิก</a>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <button class="mobile-menu-btn" id="mobileMenuBtn">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu Overlay -->
+    <div class="mobile-menu-overlay" id="mobileMenuOverlay"></div>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <div class="mobile-menu-header">
+            <div class="logo">
+                <span class="logo-icon">📚</span>
+                <span class="logo-text">PREP HUB</span>
+            </div>
+            <button class="mobile-menu-close" id="mobileMenuClose">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+        </div>
+
+        <nav class="mobile-menu-nav">
+            <a href="../index.html" class="mobile-nav-link">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                    <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                </svg>
+                หน้าหลัก
+            </a>
+            <a href="courses/m6.html" class="mobile-nav-link">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"></path>
+                </svg>
+                คอร์สเรียน
+            </a>
+            <a href="about.html" class="mobile-nav-link active">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="12" y1="16" x2="12" y2="12"></line>
+                    <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                </svg>
+                เกี่ยวกับเรา
+            </a>
+            <a href="contact.html" class="mobile-nav-link">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                </svg>
+                ติดต่อเรา
+            </a>
+        </nav>
+
+        <div class="mobile-menu-actions" id="mobileMenuActions">
+            <a href="auth/login.html" class="btn btn-secondary">เข้าสู่ระบบ</a>
+            <a href="auth/register.html" class="btn btn-primary">สมัครสมาชิก</a>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero" style="padding: 80px 0 60px;">
+        <div class="hero-background"></div>
+        <div class="container">
+            <div class="hero-content" style="text-align: center;">
+                <div class="hero-badge animate-fadeIn">
+                    <span class="badge badge-primary">🎯 เกี่ยวกับเรา</span>
+                </div>
+                <h1 class="hero-title animate-fadeIn" style="font-size: 2.5rem;">เราคือ PREP HUB</h1>
+                <p class="hero-subtitle animate-fadeIn">แพลตฟอร์มรวมคอร์สติวทุกที่ ไว้ที่เดียว</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mission Section -->
+    <section style="padding: 60px 0;">
+        <div class="container">
+            <div style="max-width: 800px; margin: 0 auto; text-align: center;">
+                <h2 style="font-size: 1.75rem; font-weight: 600; margin-bottom: 24px; color: var(--color-gray-900);">
+                    พันธกิจของเรา</h2>
+                <p style="font-size: 1.125rem; color: var(--color-gray-600); line-height: 1.8; margin-bottom: 32px;">
+                    PREP HUB ถูกสร้างขึ้นเพื่อช่วยนักเรียนไทยค้นหาคอร์สติวที่เหมาะสมกับตัวเอง
+                    เราเชื่อว่าการศึกษาคือกุญแจสำคัญสู่อนาคตที่ดี และทุกคนควรมีโอกาสเข้าถึงแหล่งเรียนรู้ที่มีคุณภาพ
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section style="padding: 60px 0; background: var(--color-gray-50);">
+        <div class="container">
+            <div class="section-header" style="text-align: center; margin-bottom: 48px;">
+                <h2 class="section-title">ทำไมต้อง PREP HUB?</h2>
+                <p class="section-subtitle">สิ่งที่ทำให้เราแตกต่าง</p>
+            </div>
+
+            <div class="categories-grid">
+                <div class="card-category" style="cursor: default;">
+                    <div class="card-category-icon">🔍</div>
+                    <h3 class="card-category-title">ค้นหาง่าย</h3>
+                    <p class="card-category-description">รวมคอร์สจากหลายสถาบันชั้นนำ ค้นหาและเปรียบเทียบได้ในที่เดียว
+                    </p>
+                </div>
+
+                <div class="card-category" style="cursor: default;">
+                    <div class="card-category-icon">⭐</div>
+                    <h3 class="card-category-title">รีวิวจริง</h3>
+                    <p class="card-category-description">อ่านรีวิวจากนักเรียนตัวจริง ช่วยให้ตัดสินใจได้ดีขึ้น</p>
+                </div>
+
+                <div class="card-category" style="cursor: default;">
+                    <div class="card-category-icon">💰</div>
+                    <h3 class="card-category-title">ราคาโปร่งใส</h3>
+                    <p class="card-category-description">เปรียบเทียบราคาได้ทันที ไม่มีค่าใช้จ่ายแอบแฝง</p>
+                </div>
+
+                <div class="card-category" style="cursor: default;">
+                    <div class="card-category-icon">🎓</div>
+                    <h3 class="card-category-title">ครบทุกวิชา</h3>
+                    <p class="card-category-description">ตั้งแต่ ม.ต้น จนถึงมหาวิทยาลัย ทุกสนามสอบ</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section style="padding: 60px 0;">
+        <div class="container">
+            <div
+                style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 32px; text-align: center;">
+                <div>
+                    <div style="font-size: 3rem; font-weight: 700; color: #0284c7;">500+</div>
+                    <div style="color: #4b5563;">คอร์สเรียน</div>
+                </div>
+                <div>
+                    <div style="font-size: 3rem; font-weight: 700; color: #0284c7;">20+</div>
+                    <div style="color: #4b5563;">สถาบันพาร์ทเนอร์</div>
+                </div>
+                <div>
+                    <div style="font-size: 3rem; font-weight: 700; color: #0284c7;">10,000+</div>
+                    <div style="color: #4b5563;">นักเรียนใช้งาน</div>
+                </div>
+                <div>
+                    <div style="font-size: 3rem; font-weight: 700; color: #0284c7;">4.8</div>
+                    <div style="color: #4b5563;">คะแนนความพึงพอใจ</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section style="padding: 80px 0; background: linear-gradient(135deg, #0284c7, #075985); text-align: center;">
+        <div class="container">
+            <h2 style="font-size: 2rem; font-weight: 700; color: white; margin-bottom: 16px;">
+                พร้อมเริ่มต้นเรียนรู้แล้วหรือยัง?</h2>
+            <p style="color: rgba(255,255,255,0.9); margin-bottom: 32px; font-size: 1.125rem;">สมัครสมาชิกฟรี
+                เริ่มค้นหาคอร์สที่ใช่สำหรับคุณวันนี้</p>
+            <a href="auth/register.html" class="btn"
+                style="background: white; color: #0369a1; font-weight: 600; padding: 16px 32px; font-size: 1rem; border-radius: 8px; text-decoration: none; display: inline-block;">สมัครสมาชิกฟรี</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer style="background: var(--color-gray-900); color: white; padding: 40px 0;">
+        <div class="container" style="text-align: center;">
+            <div class="logo" style="justify-content: center; margin-bottom: 16px;">
+                <span class="logo-icon">📚</span>
+                <span class="logo-text" style="color: white;">PREP HUB</span>
+            </div>
+            <p style="color: var(--color-gray-400);">© 2024 PREP HUB - รวมคอร์สติวทุกที่ ไว้ที่เดียว</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="../js/api.js"></script>
+    <script src="../js/app.js"></script>
+</body>
+
+</html>

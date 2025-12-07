@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>เข้าสู่ระบบ - PREP HUB</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&family=Prompt:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="../../css/design-system.css">
+    <link rel="stylesheet" href="../../css/pages/auth.css">
+    <!-- SweetAlert2 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+
+<body>
+
+    <div class="auth-container">
+        <div class="auth-card animate-fadeIn">
+            <a href="../../index.html" class="auth-logo">
+                <span class="logo-icon" style="font-size: 2rem;">📚</span>
+                <span class="logo-text"
+                    style="font-family: 'Kanit'; font-weight: 700; font-size: 1.5rem; background: var(--gradient-primary); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;">PREP
+                    HUB</span>
+            </a>
+
+            <h1 class="auth-title">ยินดีต้อนรับกลับมา</h1>
+            <p class="auth-subtitle">เข้าสู่ระบบเพื่อเข้าถึงคอร์สเรียนของคุณ</p>
+
+            <form class="auth-form" id="loginForm">
+                <div class="form-group">
+                    <label class="form-label" for="email">อีเมล</label>
+                    <input type="email" id="email" class="form-input" placeholder="name@example.com" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="password">รหัสผ่าน</label>
+                    <input type="password" id="password" class="form-input" placeholder="••••••••" required>
+                </div>
+
+                <div class="form-actions">
+                    <label class="remember-me" style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                        <input type="checkbox" id="rememberMe"
+                            style="width: 18px; height: 18px; accent-color: var(--primary-500); cursor: pointer;">
+                        <span>จดจำการเข้าสู่ระบบ</span>
+                    </label>
+                    <a href="#" class="forgot-password">ลืมรหัสผ่าน?</a>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-block btn-lg">เข้าสู่ระบบ</button>
+            </form>
+
+            <div class="auth-footer">
+                ยังไม่มีบัญชี? <a href="register.html">สมัครสมาชิก</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- API Configuration -->
+    <script src="../../js/api.js"></script>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', async function (e) {
+            e.preventDefault();
+
+            const email = document.getElementById('email').value.trim().toLowerCase();
+            const password = document.getElementById('password').value;
+            const rememberMe = document.getElementById('rememberMe').checked;
+            const submitBtn = this.querySelector('button[type="submit"]');
+
+            // Disable button while loading
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'กำลังเข้าสู่ระบบ...';
+
+            try {
+                // Call real API with rememberMe option
+                const data = await auth.login(email, password, rememberMe);
+
+                // Show success message
+                await Swal.fire({
+                    icon: 'success',
+                    title: 'เข้าสู่ระบบสำเร็จ!',
+                    text: 'ยินดีต้อนรับ ' + data.user.name,
+                    timer: 1500,
+                    showConfirmButton: false
+                });
+
+                // Redirect based on role
+                if (data.user.role === 'admin') {
+                    window.location.href = '../admin/index.html';
+                } else {
+                    window.location.href = '../user/dashboard.html';
+                }
+            } catch (error) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'เข้าสู่ระบบไม่สำเร็จ',
+                    text: error.message
+                });
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'เข้าสู่ระบบ';
+            }
+        });
+    </script>
+</body>
+
+</html>

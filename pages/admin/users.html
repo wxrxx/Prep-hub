@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>จัดการผู้ใช้งาน - Admin | PREP HUB</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&family=Prompt:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="../../css/design-system.css">
+    <link rel="stylesheet" href="../../css/home.css">
+
+    <style>
+        .admin-layout {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .admin-sidebar {
+            width: 260px;
+            background: #111827;
+            color: white;
+            padding: 24px;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .admin-sidebar .logo {
+            margin-bottom: 32px;
+        }
+
+        .admin-sidebar .logo-text {
+            color: white;
+        }
+
+        .admin-nav {
+            list-style: none;
+        }
+
+        .admin-nav-item {
+            margin-bottom: 8px;
+        }
+
+        .admin-nav-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            border-radius: 8px;
+            color: #9ca3af;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .admin-nav-link:hover,
+        .admin-nav-link.active {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        .admin-nav-link.active {
+            background: #0284c7;
+        }
+
+        .admin-main {
+            flex: 1;
+            margin-left: 260px;
+            padding: 32px;
+            background: #f9fafb;
+        }
+
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 32px;
+        }
+
+        .admin-title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: #111827;
+        }
+
+        .data-table {
+            width: 100%;
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .data-table th,
+        .data-table td {
+            padding: 16px;
+            text-align: left;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .data-table th {
+            background: #f9fafb;
+            font-weight: 600;
+            color: #374151;
+            font-size: 0.875rem;
+        }
+
+        .data-table td {
+            color: #111827;
+        }
+
+        .data-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .data-table tr:hover {
+            background: #f9fafb;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #e0f2fe;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .badge-role {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .badge-admin {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .badge-user {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .btn-sm {
+            padding: 8px 16px;
+            font-size: 0.875rem;
+        }
+
+        @media (max-width: 768px) {
+            .admin-sidebar {
+                display: none;
+            }
+
+            .admin-main {
+                margin-left: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="admin-layout">
+        <!-- Sidebar -->
+        <aside class="admin-sidebar">
+            <div class="logo">
+                <span class="logo-icon">📚</span>
+                <span class="logo-text">PREP HUB</span>
+            </div>
+            <ul class="admin-nav">
+                <li class="admin-nav-item"><a href="index.html" class="admin-nav-link">📊 Dashboard</a></li>
+                <li class="admin-nav-item"><a href="courses.html" class="admin-nav-link">📚 คอร์สเรียน</a></li>
+                <li class="admin-nav-item"><a href="users.html" class="admin-nav-link active">👥 ผู้ใช้งาน</a></li>
+                <li class="admin-nav-item"><a href="messages.html" class="admin-nav-link">✉️ ข้อความ</a></li>
+                <li class="admin-nav-item"
+                    style="margin-top: 32px; padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.1);">
+                    <a href="../../index.html" class="admin-nav-link">🏠 กลับหน้าหลัก</a>
+                </li>
+                <li class="admin-nav-item"><a href="#" class="admin-nav-link" onclick="logout()">🚪 ออกจากระบบ</a></li>
+            </ul>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="admin-main">
+            <div class="admin-header">
+                <h1 class="admin-title">👥 จัดการผู้ใช้งาน</h1>
+            </div>
+
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>ผู้ใช้งาน</th>
+                        <th>อีเมล</th>
+                        <th>สิทธิ์</th>
+                        <th>วันที่สมัคร</th>
+                        <th>จัดการ</th>
+                    </tr>
+                </thead>
+                <tbody id="usersTable">
+                    <tr>
+                        <td colspan="6" style="text-align: center; padding: 40px;">กำลังโหลด...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </main>
+    </div>
+
+    <script src="../../js/api.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const user = auth.getUser();
+            if (!user || user.role !== 'admin') {
+                alert('คุณไม่มีสิทธิ์เข้าถึงหน้านี้');
+                window.location.href = '../auth/login.html';
+                return;
+            }
+
+            try {
+                const response = await api.get('/api/users');
+                const usersList = response.users || [];
+                const tbody = document.getElementById('usersTable');
+
+                if (usersList.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; padding: 40px;">ไม่พบข้อมูลผู้ใช้งาน</td></tr>';
+                    return;
+                }
+
+                tbody.innerHTML = usersList.map(u => `
+                    <tr>
+                        <td>${u.id}</td>
+                        <td>
+                            <div class="user-info">
+                                <div class="user-avatar">${u.avatar || '👤'}</div>
+                                <strong>${u.name}</strong>
+                            </div>
+                        </td>
+                        <td>${u.email}</td>
+                        <td><span class="badge-role ${u.role === 'admin' ? 'badge-admin' : 'badge-user'}">${u.role === 'admin' ? '👑 Admin' : '👤 User'}</span></td>
+                        <td>${new Date(u.created_at).toLocaleDateString('th-TH')}</td>
+                        <td>
+                            <button class="btn btn-ghost btn-sm" onclick="alert('ดูโปรไฟล์ ID: ${u.id}')">👁️</button>
+                        </td>
+                    </tr>
+                `).join('');
+            } catch (error) {
+                document.getElementById('usersTable').innerHTML = '<tr><td colspan="6" style="text-align: center; color: red;">โหลดข้อมูลไม่สำเร็จ</td></tr>';
+            }
+        });
+
+        function logout() { auth.logout(); }
+    </script>
+</body>
+
+</html>

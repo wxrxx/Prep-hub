@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>รายการโปรด - PREP HUB</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&family=Prompt:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../../css/design-system.css">
+    <link rel="stylesheet" href="../../css/pages/dashboard.css">
+</head>
+
+<body>
+    <div class="dashboard-container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <a href="../../index.html" class="logo">
+                    <span class="logo-icon">📚</span>
+                    <span class="logo-text">PREP HUB</span>
+                </a>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="dashboard.html" class="nav-item">แดชบอร์ด</a>
+                <a href="favorites.html" class="nav-item active">คอร์สที่บันทึก</a>
+                <a href="profile.html" class="nav-item">ตั้งค่าบัญชี</a>
+            </nav>
+        </aside>
+        <main class="main-content">
+            <header class="topbar">
+                <h1>คอร์สที่บันทึกไว้</h1>
+            </header>
+            <div id="favoritesGrid" class="courses-grid">
+                <!-- Favorites loaded here -->
+                <p>กำลังโหลด...</p>
+            </div>
+        </main>
+    </div>
+    <script src="../../js/api.js"></script>
+    <script>
+        if (!auth.isLoggedIn()) window.location.href = '../auth/login.html';
+
+        async function loadFavorites() {
+            try {
+                const favs = await favorites.getAll();
+                const container = document.getElementById('favoritesGrid');
+                if (favs.length === 0) {
+                    container.innerHTML = '<p>ยังไม่มีคอร์สที่บันทึก</p>';
+                    return;
+                }
+                container.innerHTML = favs.map(c => `
+                    <div class="card-course">
+                        <div class="card-course-body">
+                            <h3>${c.title}</h3>
+                            <button class="btn btn-sm btn-danger" onclick="removeFav(${c.id})">ลบ</button>
+                        </div>
+                    </div>
+                `).join('');
+            } catch (e) {
+                console.error(e);
+            }
+        }
+        loadFavorites();
+    </script>
+</body>
+
+</html>

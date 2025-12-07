@@ -60,6 +60,8 @@ async function startServer() {
         const favoritesRoutes = require('./routes/favorites');
         const usersRoutes = require('./routes/users');
         const brandsRoutes = require('./routes/brands');
+        const contactRoutes = require('./routes/contact');
+        const messagesRoutes = require('./routes/messages');
 
         // ============================================
         // API Routes
@@ -70,6 +72,8 @@ async function startServer() {
         app.use('/api/favorites', favoritesRoutes);
         app.use('/api/users', usersRoutes);
         app.use('/api/brands', brandsRoutes);
+        app.use('/api/contact', contactRoutes);
+        app.use('/api/messages', messagesRoutes);
 
         // ============================================
         // Health Check & Info

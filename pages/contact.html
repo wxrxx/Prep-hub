@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="ติดต่อเรา - PREP HUB">
+    <title>ติดต่อเรา - PREP HUB</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&family=Prompt:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="../css/design-system.css">
+    <link rel="stylesheet" href="../css/home.css">
+    <link rel="stylesheet" href="../css/pages/auth.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-content">
+                <div class="navbar-brand">
+                    <a href="../index.html" class="logo">
+                        <span class="logo-icon">📚</span>
+                        <span class="logo-text">PREP HUB</span>
+                    </a>
+                </div>
+
+                <div class="navbar-menu">
+                    <a href="../index.html" class="nav-link">หน้าหลัก</a>
+                    <a href="courses/m6.html" class="nav-link">คอร์สเรียน</a>
+                    <a href="about.html" class="nav-link">เกี่ยวกับเรา</a>
+                    <a href="contact.html" class="nav-link active">ติดต่อเรา</a>
+                </div>
+
+                <div class="navbar-actions" id="navbarActions">
+                    <a href="auth/login.html" class="btn btn-ghost btn-sm">เข้าสู่ระบบ</a>
+                    <a href="auth/register.html" class="btn btn-primary btn-sm">สมัครสมาชิก</a>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <button class="mobile-menu-btn" id="mobileMenuBtn">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu Overlay -->
+    <div class="mobile-menu-overlay" id="mobileMenuOverlay"></div>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <div class="mobile-menu-header">
+            <div class="logo">
+                <span class="logo-icon">📚</span>
+                <span class="logo-text">PREP HUB</span>
+            </div>
+            <button class="mobile-menu-close" id="mobileMenuClose">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+        </div>
+
+        <nav class="mobile-menu-nav">
+            <a href="../index.html" class="mobile-nav-link">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                    <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                </svg>
+                หน้าหลัก
+            </a>
+            <a href="courses/m6.html" class="mobile-nav-link">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"></path>
+                </svg>
+                คอร์สเรียน
+            </a>
+            <a href="about.html" class="mobile-nav-link">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="12" y1="16" x2="12" y2="12"></line>
+                    <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                </svg>
+                เกี่ยวกับเรา
+            </a>
+            <a href="contact.html" class="mobile-nav-link active">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                </svg>
+                ติดต่อเรา
+            </a>
+        </nav>
+
+        <div class="mobile-menu-actions" id="mobileMenuActions">
+            <a href="auth/login.html" class="btn btn-secondary">เข้าสู่ระบบ</a>
+            <a href="auth/register.html" class="btn btn-primary">สมัครสมาชิก</a>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero" style="padding: 80px 0 40px;">
+        <div class="hero-background"></div>
+        <div class="container">
+            <div class="hero-content" style="text-align: center;">
+                <div class="hero-badge animate-fadeIn">
+                    <span class="badge badge-primary">✉️ ติดต่อเรา</span>
+                </div>
+                <h1 class="hero-title animate-fadeIn" style="font-size: 2.5rem;">ติดต่อเรา</h1>
+                <p class="hero-subtitle animate-fadeIn">มีคำถามหรือข้อเสนอแนะ? ส่งข้อความหาเราได้เลย</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Form Section -->
+    <section style="padding: 40px 0 80px;">
+        <div class="container" style="max-width: 600px;">
+            <form id="contactForm" class="auth-form"
+                style="background: white; padding: 32px; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.08);">
+                <div class="form-group">
+                    <label class="form-label">ชื่อ-นามสกุล</label>
+                    <input type="text" id="name" class="form-input" required placeholder="ระบุชื่อของคุณ">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">อีเมล</label>
+                    <input type="email" id="email" class="form-input" required placeholder="example@email.com">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">หัวข้อ</label>
+                    <input type="text" id="subject" class="form-input" required placeholder="เรื่องที่ต้องการติดต่อ">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">ข้อความ</label>
+                    <textarea id="message" class="form-input" rows="5" required
+                        placeholder="ระบุรายละเอียด..."></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">ส่งข้อความ</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Contact Info Section -->
+    <section style="padding: 60px 0; background: #f9fafb;">
+        <div class="container">
+            <div
+                style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 32px; text-align: center;">
+                <div style="padding: 24px;">
+                    <div style="font-size: 2.5rem; margin-bottom: 16px;">📧</div>
+                    <h3 style="font-size: 1.125rem; font-weight: 600; margin-bottom: 8px; color: #111827;">อีเมล</h3>
+                    <p style="color: #6b7280;">support@prephub.com</p>
+                </div>
+                <div style="padding: 24px;">
+                    <div style="font-size: 2.5rem; margin-bottom: 16px;">📱</div>
+                    <h3 style="font-size: 1.125rem; font-weight: 600; margin-bottom: 8px; color: #111827;">โทรศัพท์</h3>
+                    <p style="color: #6b7280;">02-XXX-XXXX</p>
+                </div>
+                <div style="padding: 24px;">
+                    <div style="font-size: 2.5rem; margin-bottom: 16px;">⏰</div>
+                    <h3 style="font-size: 1.125rem; font-weight: 600; margin-bottom: 8px; color: #111827;">เวลาทำการ
+                    </h3>
+                    <p style="color: #6b7280;">จันทร์ - ศุกร์ 9:00 - 18:00</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer style="background: #111827; color: white; padding: 40px 0;">
+        <div class="container" style="text-align: center;">
+            <div class="logo" style="justify-content: center; margin-bottom: 16px;">
+                <span class="logo-icon">📚</span>
+                <span class="logo-text" style="color: white;">PREP HUB</span>
+            </div>
+            <p style="color: #9ca3af;">© 2024 PREP HUB - รวมคอร์สติวทุกที่ ไว้ที่เดียว</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="../js/api.js"></script>
+    <script src="../js/app.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        // Auto-fill if logged in
+        if (typeof auth !== 'undefined' && auth.isLoggedIn()) {
+            const user = auth.getUser();
+            if (user) {
+                if (user.name) document.getElementById('name').value = user.name;
+                if (user.email) {
+                    const emailInput = document.getElementById('email');
+                    emailInput.value = user.email;
+                    emailInput.readOnly = true;
+                    emailInput.style.backgroundColor = '#f5f5f5';
+                }
+            }
+        }
+
+        document.getElementById('contactForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const submitBtn = e.target.querySelector('button[type="submit"]');
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'กำลังส่ง...';
+
+            const data = {
+                name: document.getElementById('name').value,
+                email: document.getElementById('email').value,
+                subject: document.getElementById('subject').value,
+                message: document.getElementById('message').value
+            };
+
+            try {
+                await api.post('/api/contact', data);
+
+                await Swal.fire({
+                    icon: 'success',
+                    title: 'ส่งข้อความสำเร็จ',
+                    text: 'เราได้รับข้อความของคุณแล้ว จะรีบติดต่อกลับให้เร็วที่สุด',
+                    confirmButtonText: 'ตกลง'
+                });
+
+                document.getElementById('subject').value = '';
+                document.getElementById('message').value = '';
+                if (typeof auth === 'undefined' || !auth.isLoggedIn()) {
+                    document.getElementById('name').value = '';
+                    document.getElementById('email').value = '';
+                }
+
+            } catch (error) {
+                console.error(error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'ส่งข้อความไม่สำเร็จ',
+                    text: error.message || 'เกิดข้อผิดพลาด กรุณาลองใหม่ภายหลัง'
+                });
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'ส่งข้อความ';
+            }
+        });
+    </script>
+</body>
+
+</html>

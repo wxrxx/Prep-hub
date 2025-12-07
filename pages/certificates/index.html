@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="เกียรติบัตร - PREP HUB ดูและดาวน์โหลดเกียรติบัตรของคุณ">
+    <title>เกียรติบัตร - PREP HUB</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&family=Prompt:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="../../css/design-system.css">
+    <link rel="stylesheet" href="../../css/home.css">
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-content">
+                <div class="navbar-brand">
+                    <a href="../../index.html" class="logo">
+                        <span class="logo-icon">📚</span>
+                        <span class="logo-text">PREP HUB</span>
+                    </a>
+                </div>
+                <div class="navbar-menu">
+                    <a href="../../index.html" class="nav-link">หน้าหลัก</a>
+                    <a href="../courses/m6.html" class="nav-link">คอร์สเรียน</a>
+                    <a href="index.html" class="nav-link active">เกียรติบัตร</a>
+                    <a href="../about.html" class="nav-link">เกี่ยวกับเรา</a>
+                </div>
+                <div class="navbar-actions" id="navbarActions">
+                    <a href="../auth/login.html" class="btn btn-ghost btn-sm">เข้าสู่ระบบ</a>
+                    <a href="../auth/register.html" class="btn btn-primary btn-sm">สมัครสมาชิก</a>
+                </div>
+                <button class="mobile-menu-btn" id="mobileMenuBtn"><span></span><span></span><span></span></button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="mobile-menu-overlay" id="mobileMenuOverlay"></div>
+    <div class="mobile-menu" id="mobileMenu">
+        <div class="mobile-menu-header">
+            <div class="logo"><span class="logo-icon">📚</span><span class="logo-text">PREP HUB</span></div>
+            <button class="mobile-menu-close" id="mobileMenuClose">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+        </div>
+        <nav class="mobile-menu-nav">
+            <a href="../../index.html" class="mobile-nav-link">🏠 หน้าหลัก</a>
+            <a href="../courses/m6.html" class="mobile-nav-link">📚 คอร์สเรียน</a>
+            <a href="index.html" class="mobile-nav-link active">🏆 เกียรติบัตร</a>
+            <a href="../about.html" class="mobile-nav-link">ℹ️ เกี่ยวกับเรา</a>
+        </nav>
+        <div class="mobile-menu-actions" id="mobileMenuActions">
+            <a href="../auth/login.html" class="btn btn-secondary">เข้าสู่ระบบ</a>
+            <a href="../auth/register.html" class="btn btn-primary">สมัครสมาชิก</a>
+        </div>
+    </div>
+
+    <!-- Hero -->
+    <section class="hero" style="padding: 80px 0 40px;">
+        <div class="hero-background"></div>
+        <div class="container">
+            <div class="hero-content" style="text-align: center;">
+                <div class="hero-badge"><span class="badge badge-primary">🏆 เกียรติบัตร</span></div>
+                <h1 class="hero-title" style="font-size: 2.5rem;">เกียรติบัตรของฉัน</h1>
+                <p class="hero-subtitle">ดูและดาวน์โหลดเกียรติบัตรจากคอร์สที่คุณเรียนจบแล้ว</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Certificates Grid -->
+    <section style="padding: 20px 0 80px;">
+        <div class="container">
+            <div id="certificatesGrid"
+                style="display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 24px;">
+                <!-- Will be populated by JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer style="background: #111827; color: white; padding: 40px 0;">
+        <div class="container" style="text-align: center;">
+            <div class="logo" style="justify-content: center; margin-bottom: 16px;"><span
+                    class="logo-icon">📚</span><span class="logo-text" style="color: white;">PREP HUB</span></div>
+            <p style="color: #9ca3af;">© 2024 PREP HUB - รวมคอร์สติวทุกที่ ไว้ที่เดียว</p>
+        </div>
+    </footer>
+
+    <script src="../../js/api.js"></script>
+    <script src="../../js/app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const grid = document.getElementById('certificatesGrid');
+
+            // Check if logged in
+            if (!auth.isLoggedIn()) {
+                grid.innerHTML = `
+                    <div style="grid-column: 1/-1; text-align: center; padding: 80px 20px;">
+                        <div style="font-size: 4rem; margin-bottom: 24px;">🔒</div>
+                        <h2 style="font-size: 1.5rem; font-weight: 600; color: #111827; margin-bottom: 12px;">กรุณาเข้าสู่ระบบ</h2>
+                        <p style="color: #6b7280; margin-bottom: 24px;">เข้าสู่ระบบเพื่อดูเกียรติบัตรของคุณ</p>
+                        <a href="../auth/login.html" class="btn btn-primary">เข้าสู่ระบบ</a>
+                    </div>
+                `;
+                return;
+            }
+
+            // Show loading
+            grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:60px;"><div style="font-size:3rem;">🔄</div><p style="color:#6b7280;">กำลังโหลดเกียรติบัตร...</p></div>';
+
+            try {
+                // Try to fetch certificates (API may not exist yet)
+                const response = await api.get('/api/certificates');
+                const certs = response.certificates || [];
+
+                if (certs.length === 0) {
+                    grid.innerHTML = `
+                        <div style="grid-column: 1/-1; text-align: center; padding: 80px 20px;">
+                            <div style="font-size: 4rem; margin-bottom: 24px;">📜</div>
+                            <h2 style="font-size: 1.5rem; font-weight: 600; color: #111827; margin-bottom: 12px;">ยังไม่มีเกียรติบัตร</h2>
+                            <p style="color: #6b7280; margin-bottom: 24px;">เรียนจบคอร์สเพื่อรับเกียรติบัตรของคุณ</p>
+                            <a href="../courses/m6.html" class="btn btn-primary">ดูคอร์สเรียน</a>
+                        </div>
+                    `;
+                    return;
+                }
+
+                grid.innerHTML = certs.map(cert => `
+                    <div style="background: white; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.08);">
+                        <div style="background: linear-gradient(135deg, #fbbf24, #f59e0b); padding: 32px; text-align: center;">
+                            <div style="font-size: 3rem;">🏆</div>
+                        </div>
+                        <div style="padding: 24px;">
+                            <h3 style="font-size: 1.125rem; font-weight: 600; color: #111827; margin-bottom: 8px;">${cert.course_title}</h3>
+                            <p style="color: #6b7280; font-size: 0.875rem; margin-bottom: 16px;">เรียนจบเมื่อ ${new Date(cert.completed_at).toLocaleDateString('th-TH')}</p>
+                            <button class="btn btn-primary" style="width: 100%;" onclick="alert('ดาวน์โหลดเกียรติบัตร ID: ${cert.id}')">📥 ดาวน์โหลด</button>
+                        </div>
+                    </div>
+                `).join('');
+
+            } catch (e) {
+                // API might not exist yet, show empty state
+                grid.innerHTML = `
+                    <div style="grid-column: 1/-1; text-align: center; padding: 80px 20px;">
+                        <div style="font-size: 4rem; margin-bottom: 24px;">📜</div>
+                        <h2 style="font-size: 1.5rem; font-weight: 600; color: #111827; margin-bottom: 12px;">ยังไม่มีเกียรติบัตร</h2>
+                        <p style="color: #6b7280; margin-bottom: 24px;">เรียนจบคอร์สเพื่อรับเกียรติบัตรของคุณ</p>
+                        <a href="../courses/m6.html" class="btn btn-primary">ดูคอร์สเรียน</a>
+                    </div>
+                `;
+            }
+        });
+    </script>
+</body>
+
+</html>

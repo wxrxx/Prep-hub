@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ข้อความติดต่อ - Admin | PREP HUB</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&family=Prompt:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="../../css/design-system.css">
+    <link rel="stylesheet" href="../../css/home.css">
+
+    <style>
+        .admin-layout {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .admin-sidebar {
+            width: 260px;
+            background: #111827;
+            color: white;
+            padding: 24px;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .admin-sidebar .logo {
+            margin-bottom: 32px;
+        }
+
+        .admin-sidebar .logo-text {
+            color: white;
+        }
+
+        .admin-nav {
+            list-style: none;
+        }
+
+        .admin-nav-item {
+            margin-bottom: 8px;
+        }
+
+        .admin-nav-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            border-radius: 8px;
+            color: #9ca3af;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .admin-nav-link:hover,
+        .admin-nav-link.active {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        .admin-nav-link.active {
+            background: #0284c7;
+        }
+
+        .admin-main {
+            flex: 1;
+            margin-left: 260px;
+            padding: 32px;
+            background: #f9fafb;
+        }
+
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 32px;
+        }
+
+        .admin-title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: #111827;
+        }
+
+        .message-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .message-card {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .message-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 12px;
+        }
+
+        .message-sender {
+            font-weight: 600;
+            color: #111827;
+        }
+
+        .message-email {
+            color: #6b7280;
+            font-size: 0.875rem;
+        }
+
+        .message-subject {
+            font-size: 1.125rem;
+            font-weight: 500;
+            color: #111827;
+            margin-bottom: 8px;
+        }
+
+        .message-body {
+            color: #4b5563;
+            line-height: 1.6;
+        }
+
+        .message-date {
+            color: #9ca3af;
+            font-size: 0.75rem;
+        }
+
+        .badge-status {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .badge-unread {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .badge-read {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px;
+            background: white;
+            border-radius: 16px;
+        }
+
+        .empty-state-icon {
+            font-size: 3rem;
+            margin-bottom: 16px;
+        }
+
+        .empty-state-text {
+            color: #6b7280;
+        }
+
+        @media (max-width: 768px) {
+            .admin-sidebar {
+                display: none;
+            }
+
+            .admin-main {
+                margin-left: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="admin-layout">
+        <!-- Sidebar -->
+        <aside class="admin-sidebar">
+            <div class="logo">
+                <span class="logo-icon">📚</span>
+                <span class="logo-text">PREP HUB</span>
+            </div>
+            <ul class="admin-nav">
+                <li class="admin-nav-item"><a href="index.html" class="admin-nav-link">📊 Dashboard</a></li>
+                <li class="admin-nav-item"><a href="courses.html" class="admin-nav-link">📚 คอร์สเรียน</a></li>
+                <li class="admin-nav-item"><a href="users.html" class="admin-nav-link">👥 ผู้ใช้งาน</a></li>
+                <li class="admin-nav-item"><a href="messages.html" class="admin-nav-link active">✉️ ข้อความ</a></li>
+                <li class="admin-nav-item"
+                    style="margin-top: 32px; padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.1);">
+                    <a href="../../index.html" class="admin-nav-link">🏠 กลับหน้าหลัก</a>
+                </li>
+                <li class="admin-nav-item"><a href="#" class="admin-nav-link" onclick="logout()">🚪 ออกจากระบบ</a></li>
+            </ul>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="admin-main">
+            <div class="admin-header">
+                <h1 class="admin-title">✉️ ข้อความติดต่อ</h1>
+            </div>
+
+            <div class="message-list" id="messageList">
+                <div class="empty-state">
+                    <div class="empty-state-icon">📭</div>
+                    <p class="empty-state-text">กำลังโหลดข้อความ...</p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="../../js/api.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const user = auth.getUser();
+            if (!user || user.role !== 'admin') {
+                alert('คุณไม่มีสิทธิ์เข้าถึงหน้านี้');
+                window.location.href = '../auth/login.html';
+                return;
+            }
+
+            try {
+                // Note: This endpoint needs to be created on backend
+                const response = await api.get('/api/messages');
+                const messages = response.messages || [];
+                const container = document.getElementById('messageList');
+
+                if (messages.length === 0) {
+                    container.innerHTML = `
+                        <div class="empty-state">
+                            <div class="empty-state-icon">📭</div>
+                            <p class="empty-state-text">ยังไม่มีข้อความ</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                container.innerHTML = messages.map(msg => `
+                    <div class="message-card">
+                        <div class="message-header">
+                            <div>
+                                <div class="message-sender">${msg.name}</div>
+                                <div class="message-email">${msg.email}</div>
+                            </div>
+                            <div style="text-align: right;">
+                                <span class="badge-status ${msg.status === 'unread' ? 'badge-unread' : 'badge-read'}">${msg.status === 'unread' ? 'ยังไม่อ่าน' : 'อ่านแล้ว'}</span>
+                                <div class="message-date" style="margin-top: 4px;">${new Date(msg.created_at).toLocaleDateString('th-TH')}</div>
+                            </div>
+                        </div>
+                        <div class="message-subject">${msg.subject}</div>
+                        <div class="message-body">${msg.message}</div>
+                    </div>
+                `).join('');
+            } catch (error) {
+                document.getElementById('messageList').innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">⚠️</div>
+                        <p class="empty-state-text">โหลดข้อมูลไม่สำเร็จ (API ยังไม่พร้อม)</p>
+                    </div>
+                `;
+            }
+        });
+
+        function logout() { auth.logout(); }
+    </script>
+</body>
+
+</html>

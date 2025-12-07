@@ -13,12 +13,15 @@ const router = express.Router();
 // POST /api/auth/register - Register new user
 router.post('/register', (req, res) => {
     try {
-        const { name, email, password } = req.body;
+        let { name, email, password } = req.body;
 
         // Validation
         if (!name || !email || !password) {
             return res.status(400).json({ error: 'กรุณากรอกข้อมูลให้ครบ' });
         }
+
+        // Normalize email
+        email = email.trim().toLowerCase();
 
         if (password.length < 6) {
             return res.status(400).json({ error: 'รหัสผ่านต้องมีอย่างน้อย 6 ตัวอักษร' });
@@ -53,6 +56,7 @@ router.post('/register', (req, res) => {
                 id: result.lastInsertRowid,
                 name,
                 email,
+                phone: null,
                 role: 'user',
                 avatar: '👤'
             }
@@ -67,12 +71,15 @@ router.post('/register', (req, res) => {
 // POST /api/auth/login - Login user
 router.post('/login', (req, res) => {
     try {
-        const { email, password } = req.body;
+        let { email, password } = req.body;
 
         // Validation
         if (!email || !password) {
             return res.status(400).json({ error: 'กรุณากรอกอีเมลและรหัสผ่าน' });
         }
+
+        // Normalize email
+        email = email.trim().toLowerCase();
 
         // Find user
         const user = db.get('SELECT * FROM users WHERE email = ?', [email]);
@@ -100,6 +107,7 @@ router.post('/login', (req, res) => {
                 id: user.id,
                 name: user.name,
                 email: user.email,
+                phone: user.phone,
                 role: user.role,
                 avatar: user.avatar
             }
@@ -115,7 +123,7 @@ router.post('/login', (req, res) => {
 router.get('/me', authenticateToken, (req, res) => {
     try {
         const user = db.get(`
-            SELECT id, name, email, role, avatar, created_at 
+            SELECT id, name, email, phone, role, avatar, created_at 
             FROM users WHERE id = ?
         `, [req.user.id]);
 
@@ -134,10 +142,10 @@ router.get('/me', authenticateToken, (req, res) => {
 // PUT /api/auth/profile - Update profile
 router.put('/profile', authenticateToken, (req, res) => {
     try {
-        const { name, avatar } = req.body;
+        const { name, phone, avatar } = req.body;
 
-        db.run(`UPDATE users SET name = ?, avatar = ? WHERE id = ?`,
-            [name || req.user.name, avatar || '👤', req.user.id]);
+        db.run(`UPDATE users SET name = ?, phone = ?, avatar = ? WHERE id = ?`,
+            [name || req.user.name, phone || req.user.phone, avatar || req.user.avatar, req.user.id]);
 
         res.json({ message: 'อัปเดตโปรไฟล์สำเร็จ' });
 

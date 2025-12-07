@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="PREP HUB - รวมคอร์สติวทุกที่ ไว้ที่เดียว ค้นหาคอร์สติวจากทุกแพลตฟอร์ม">
+    <title>PREP HUB - รวมคอร์สติวทุกที่ ไว้ที่เดียว</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&family=Prompt:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/design-system.css">
+    <link rel="stylesheet" href="css/home.css">
+    <link rel="stylesheet" href="css/pages/course-modal.css">
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-content">
+                <div class="navbar-brand">
+                    <div class="logo">
+                        <span class="logo-icon">📚</span>
+                        <span class="logo-text">PREP HUB</span>
+                    </div>
+                </div>
+
+                <div class="navbar-menu">
+                    <a href="index.html" class="nav-link active">หน้าหลัก</a>
+                    <a href="pages/courses/m6.html" class="nav-link">คอร์สเรียน</a>
+                    <a href="pages/certificates/index.html" class="nav-link">เกียรติบัตร</a>
+                    <a href="pages/about.html" class="nav-link">เกี่ยวกับเรา</a>
+                </div>
+
+                <div class="navbar-actions" id="navbarActions">
+                    <!-- Will be updated by JS based on auth state -->
+                    <a href="pages/auth/login.html" class="btn btn-ghost btn-sm">เข้าสู่ระบบ</a>
+                    <a href="pages/auth/register.html" class="btn btn-primary btn-sm">สมัครสมาชิก</a>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <button class="mobile-menu-btn" id="mobileMenuBtn">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu Overlay -->
+    <div class="mobile-menu-overlay" id="mobileMenuOverlay"></div>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <div class="mobile-menu-header">
+            <div class="logo">
+                <span class="logo-icon">📚</span>
+                <span class="logo-text">PREP HUB</span>
+            </div>
+            <button class="mobile-menu-close" id="mobileMenuClose">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+        </div>
+
+        <nav class="mobile-menu-nav">
+            <a href="index.html" class="mobile-nav-link active">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                    <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                </svg>
+                หน้าหลัก
+            </a>
+            <a href="pages/courses/m6.html" class="mobile-nav-link">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"></path>
+                </svg>
+                คอร์สเรียน
+            </a>
+            <a href="pages/certificates/index.html" class="mobile-nav-link">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="8" r="7"></circle>
+                    <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline>
+                </svg>
+                เกียรติบัตร
+            </a>
+            <a href="pages/about.html" class="mobile-nav-link">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="12" y1="16" x2="12" y2="12"></line>
+                    <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                </svg>
+                เกี่ยวกับเรา
+            </a>
+
+            <div class="mobile-menu-divider"></div>
+
+            <a href="pages/user/dashboard.html" class="mobile-nav-link">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect width="18" height="18" x="3" y="3" rx="2" ry="2"></rect>
+                    <line x1="3" y1="9" x2="21" y2="9"></line>
+                    <line x1="9" y1="21" x2="9" y2="9"></line>
+                </svg>
+                แดชบอร์ด
+            </a>
+            <a href="pages/user/favorites.html" class="mobile-nav-link">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path
+                        d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z">
+                    </path>
+                </svg>
+                คอร์สโปรด
+            </a>
+        </nav>
+
+        <div class="mobile-menu-actions" id="mobileMenuActions">
+            <!-- Will be updated by JS based on auth state -->
+            <a href="pages/auth/login.html" class="btn btn-secondary">เข้าสู่ระบบ</a>
+            <a href="pages/auth/register.html" class="btn btn-primary">สมัครสมาชิก</a>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-background"></div>
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-badge animate-fadeIn">
+                    <span class="badge badge-primary">🎓 ศูนย์รวมคอร์สติว</span>
+                </div>
+
+                <h1 class="hero-title animate-fadeIn">
+                    PREP HUB
+                </h1>
+
+                <p class="hero-subtitle animate-fadeIn">
+                    รวมคอร์สติวทุกที่ ไว้ที่เดียว
+                </p>
+
+                <p class="hero-description animate-fadeIn">
+                    ค้นหาคอร์สติวจากทุกแพลตฟอร์ม กรองตามความต้องการ บันทึกคอร์สที่ชอบ<br>
+                    จบครบในที่เดียว ง่าย สะดวก รวดเร็ว
+                </p>
+
+                <!-- Search Bar -->
+                <div class="search-container animate-fadeIn">
+                    <div class="search-wrapper">
+                        <svg class="search-icon" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <path d="m21 21-4.35-4.35"></path>
+                        </svg>
+                        <input type="text" class="input-search" id="heroSearch"
+                            placeholder="ค้นหาคอร์ส เช่น คณิต ม.6, TGAT, Enconcept..." autocomplete="off">
+                    </div>
+
+                    <!-- Search Suggestions (Hidden by default) -->
+                    <div class="search-suggestions" id="searchSuggestions" style="display: none;">
+                        <div class="suggestion-item">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <polyline points="12 6 12 12 16 14"></polyline>
+                            </svg>
+                            <span>คณิตศาสตร์ ม.6</span>
+                        </div>
+                        <div class="suggestion-item">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <polyline points="12 6 12 12 16 14"></polyline>
+                            </svg>
+                            <span>TGAT/TPAT</span>
+                        </div>
+                        <div class="suggestion-item">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <polyline points="12 6 12 12 16 14"></polyline>
+                            </svg>
+                            <span>สายแพทย์</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Popular Keywords -->
+                <div class="popular-keywords animate-fadeIn">
+                    <span class="keyword-label">ยอดนิยม:</span>
+                    <button class="keyword-tag">คณิต ม.6</button>
+                    <button class="keyword-tag">TGAT</button>
+                    <button class="keyword-tag">ฟิสิกส์</button>
+                    <button class="keyword-tag">สายแพทย์</button>
+                    <button class="keyword-tag">A-Level</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quick Categories -->
+    <section class="quick-categories">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">เลือกหมวดหมู่ที่คุณสนใจ</h2>
+                <p class="section-subtitle">เริ่มต้นค้นหาคอร์สที่เหมาะกับคุณ</p>
+            </div>
+
+            <div class="categories-grid">
+                <a href="pages/courses/m4.html" class="card-category">
+                    <div class="card-category-icon">🎯</div>
+                    <h3 class="card-category-title">ติวเข้า ม.4</h3>
+                    <p class="card-category-description">คอร์สติวสอบเข้าโรงเรียนชั้นนำ</p>
+                    <div class="category-count">120+ คอร์ส</div>
+                </a>
+
+                <a href="pages/courses/m6.html" class="card-category">
+                    <div class="card-category-icon">🎓</div>
+                    <h3 class="card-category-title">ติวสอบ ม.6</h3>
+                    <p class="card-category-description">TGAT, TPAT, A-Level ครบจบ</p>
+                    <div class="category-count">350+ คอร์ส</div>
+                </a>
+
+                <a href="pages/courses/medical.html" class="card-category">
+                    <div class="card-category-icon">⚕️</div>
+                    <h3 class="card-category-title">ติวสายแพทย์</h3>
+                    <p class="card-category-description">เตรียมสอบแพทย์ ทันต์ เภสัช</p>
+                    <div class="category-count">180+ คอร์ส</div>
+                </a>
+
+                <a href="pages/courses/university.html" class="card-category">
+                    <div class="card-category-icon">🏛️</div>
+                    <h3 class="card-category-title">ระดับมหาวิทยาลัย</h3>
+                    <p class="card-category-description">คอร์สเสริมสำหรับนักศึกษา</p>
+                    <div class="category-count">90+ คอร์ส</div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Popular Courses Carousel -->
+    <section class="popular-courses">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">คอร์สยอดนิยม</h2>
+                <p class="section-subtitle">คอร์สที่นักเรียนเลือกมากที่สุด</p>
+            </div>
+
+            <div class="carousel-container">
+                <button class="carousel-btn carousel-btn-prev" id="carouselPrev">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="15 18 9 12 15 6"></polyline>
+                    </svg>
+                </button>
+
+                <div class="carousel-wrapper">
+                    <div class="carousel-track" id="carouselTrack">
+                        <!-- Course Card 1 -->
+                        <div class="card-course">
+                            <div class="course-image-wrapper">
+                                <img src="https://via.placeholder.com/400x200/0ea5e9/ffffff?text=คณิต+ม.6"
+                                    alt="คณิตศาสตร์ ม.6" class="card-course-image">
+                                <button class="btn-favorite">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2">
+                                        <path
+                                            d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z">
+                                        </path>
+                                    </svg>
+                                </button>
+                            </div>
+                            <div class="card-course-body">
+                                <div class="course-badges">
+                                    <span class="badge badge-primary">ม.6</span>
+                                    <span class="badge badge-gray">คณิตศาสตร์</span>
+                                </div>
+                                <h3 class="card-course-title">คณิตศาสตร์ ม.6 เทอม 1 (Full Course)</h3>
+                                <div class="card-course-meta">
+                                    <span>📍 Enconcept</span>
+                                    <span>👤 อ.ปอนด์</span>
+                                    <span>⏱️ 30 ชม.</span>
+                                </div>
+                                <div class="course-rating">
+                                    <span class="stars">⭐⭐⭐⭐⭐</span>
+                                    <span class="rating-text">4.9 (245 รีวิว)</span>
+                                </div>
+                                <div class="card-course-price">฿2,990</div>
+                                <button class="btn btn-primary" style="width: 100%;">ดูรายละเอียด</button>
+                            </div>
+                        </div>
+
+                        <!-- Course Card 2 -->
+                        <div class="card-course">
+                            <div class="course-image-wrapper">
+                                <img src="https://via.placeholder.com/400x200/0369a1/ffffff?text=TGAT" alt="TGAT"
+                                    class="card-course-image">
+                                <button class="btn-favorite">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2">
+                                        <path
+                                            d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z">
+                                        </path>
+                                    </svg>
+                                </button>
+                            </div>
+                            <div class="card-course-body">
+                                <div class="course-badges">
+                                    <span class="badge badge-primary">ม.6</span>
+                                    <span class="badge badge-warning">TGAT</span>
+                                </div>
+                                <h3 class="card-course-title">TGAT ติวเข้ม ครบทุกเทคนิค</h3>
+                                <div class="card-course-meta">
+                                    <span>📍 Dek-D School</span>
+                                    <span>👤 อ.เบิร์ด</span>
+                                    <span>⏱️ 25 ชม.</span>
+                                </div>
+                                <div class="course-rating">
+                                    <span class="stars">⭐⭐⭐⭐⭐</span>
+                                    <span class="rating-text">4.8 (189 รีวิว)</span>
+                                </div>
+                                <div class="card-course-price">฿3,500</div>
+                                <button class="btn btn-primary" style="width: 100%;">ดูรายละเอียด</button>
+                            </div>
+                        </div>
+
+                        <!-- Course Card 3 -->
+                        <div class="card-course">
+                            <div class="course-image-wrapper">
+                                <img src="https://via.placeholder.com/400x200/7dd3fc/000000?text=ฟิสิกส์" alt="ฟิสิกส์"
+                                    class="card-course-image">
+                                <button class="btn-favorite">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2">
+                                        <path
+                                            d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z">
+                                        </path>
+                                    </svg>
+                                </button>
+                            </div>
+                            <div class="card-course-body">
+                                <div class="course-badges">
+                                    <span class="badge badge-primary">ม.6</span>
+                                    <span class="badge badge-gray">ฟิสิกส์</span>
+                                </div>
+                                <h3 class="card-course-title">ฟิสิกส์ ม.6 พื้นฐาน-ยาก</h3>
+                                <div class="card-course-meta">
+                                    <span>📍 Chula Tutor</span>
+                                    <span>👤 อ.โอม</span>
+                                    <span>⏱️ 28 ชม.</span>
+                                </div>
+                                <div class="course-rating">
+                                    <span class="stars">⭐⭐⭐⭐⭐</span>
+                                    <span class="rating-text">4.9 (312 รีวิว)</span>
+                                </div>
+                                <div class="card-course-price">฿2,790</div>
+                                <button class="btn btn-primary" style="width: 100%;">ดูรายละเอียด</button>
+                            </div>
+                        </div>
+
+                        <!-- Course Card 4 -->
+                        <div class="card-course">
+                            <div class="course-image-wrapper">
+                                <img src="https://via.placeholder.com/400x200/38bdf8/ffffff?text=สายแพทย์"
+                                    alt="สายแพทย์" class="card-course-image">
+                                <button class="btn-favorite">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2">
+                                        <path
+                                            d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z">
+                                        </path>
+                                    </svg>
+                                </button>
+                            </div>
+                            <div class="card-course-body">
+                                <div class="course-badges">
+                                    <span class="badge badge-success">สายแพทย์</span>
+                                    <span class="badge badge-gray">ชีววิทยา</span>
+                                </div>
+                                <h3 class="card-course-title">ชีววิทยา สายแพทย์ ฉบับสมบูรณ์</h3>
+                                <div class="card-course-meta">
+                                    <span>📍 Enconcept</span>
+                                    <span>👤 อ.แบงค์</span>
+                                    <span>⏱️ 35 ชม.</span>
+                                </div>
+                                <div class="course-rating">
+                                    <span class="stars">⭐⭐⭐⭐⭐</span>
+                                    <span class="rating-text">5.0 (428 รีวิว)</span>
+                                </div>
+                                <div class="card-course-price">฿4,200</div>
+                                <button class="btn btn-primary" style="width: 100%;">ดูรายละเอียด</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="carousel-btn carousel-btn-next" id="carouselNext">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="9 18 15 12 9 6"></polyline>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Brand Showcase -->
+    <section class="brand-showcase">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">สถาบันชั้นนำ</h2>
+                <p class="section-subtitle">คอร์สจากสถาบันที่คุณไว้วางใจ</p>
+            </div>
+
+            <div class="brands-grid">
+                <a href="pages/brands/enconcept.html" class="brand-card">
+                    <div class="brand-logo">🎯</div>
+                    <h3 class="brand-name">Enconcept</h3>
+                    <p class="brand-description">สถาบันติวชั้นนำ มากประสบการณ์</p>
+                    <div class="brand-stats">
+                        <span>150+ คอร์ส</span>
+                    </div>
+                </a>
+
+                <a href="pages/brands/dekd.html" class="brand-card">
+                    <div class="brand-logo">📚</div>
+                    <h3 class="brand-name">Dek-D School</h3>
+                    <p class="brand-description">เรียนออนไลน์ คุณภาพสูง</p>
+                    <div class="brand-stats">
+                        <span>200+ คอร์ส</span>
+                    </div>
+                </a>
+
+                <a href="pages/brands/chula-tutor.html" class="brand-card">
+                    <div class="brand-logo">🏛️</div>
+                    <h3 class="brand-name">Chula Tutor</h3>
+                    <p class="brand-description">ติวโดยรุ่นพี่จุฬาฯ</p>
+                    <div class="brand-stats">
+                        <span>120+ คอร์ส</span>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <span class="logo-icon">📚</span>
+                        <span class="logo-text">PREP HUB</span>
+                    </div>
+                    <p class="footer-description">
+                        ศูนย์รวมคอร์สติวจากทุกแพลตฟอร์ม<br>
+                        ค้นหา กรอง บันทึก ง่ายๆ ในที่เดียว
+                    </p>
+                </div>
+
+                <div class="footer-section">
+                    <h4 class="footer-title">เมนูหลัก</h4>
+                    <ul class="footer-links">
+                        <li><a href="index.html">หน้าหลัก</a></li>
+                        <li><a href="#courses">คอร์สเรียน</a></li>
+                        <li><a href="pages/certificates/index.html">เกียรติบัตร</a></li>
+                        <li><a href="pages/about.html">เกี่ยวกับเรา</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h4 class="footer-title">หมวดหมู่</h4>
+                    <ul class="footer-links">
+                        <li><a href="pages/courses/m4.html">ติวเข้า ม.4</a></li>
+                        <li><a href="pages/courses/m6.html">ติวสอบ ม.6</a></li>
+                        <li><a href="pages/courses/medical.html">สายแพทย์</a></li>
+                        <li><a href="pages/courses/university.html">มหาวิทยาลัย</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h4 class="footer-title">ติดต่อเรา</h4>
+                    <ul class="footer-links">
+                        <li><a href="pages/contact.html">ติดต่อ</a></li>
+                        <li><a href="#">LINE Official</a></li>
+                        <li><a href="#">นโยบายความเป็นส่วนตัว</a></li>
+                        <li><a href="#">เงื่อนไขการใช้งาน</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2024 PREP HUB. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="js/api.js?v=2"></script>
+    <script src="js/app.js?v=2"></script>
+</body>
+
+</html>

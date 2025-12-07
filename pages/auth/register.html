@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>สมัครสมาชิก - PREP HUB</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&family=Prompt:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <!-- CSS -->
+    <link rel="stylesheet" href="../../css/design-system.css">
+    <link rel="stylesheet" href="../../css/pages/auth.css">
+    <!-- SweetAlert2 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+
+<body>
+    <div class="auth-container">
+        <div class="auth-card animate-fadeIn">
+            <a href="../../index.html" class="auth-logo">
+                <span class="logo-icon" style="font-size: 2rem;">📚</span>
+                <span class="logo-text"
+                    style="font-family: 'Kanit'; font-weight: 700; font-size: 1.5rem; background: var(--gradient-primary); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;">PREP
+                    HUB</span>
+            </a>
+            <h1 class="auth-title">สมัครสมาชิกใหม่</h1>
+            <p class="auth-subtitle">เริ่มต้นการเรียนรู้ของคุณวันนี้</p>
+            <form class="auth-form" id="registerForm">
+                <div class="form-group">
+                    <label class="form-label" for="name">ชื่อ-นามสกุล</label>
+                    <input type="text" id="name" class="form-input" placeholder="สมชาย ใจดี" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="email">อีเมล</label>
+                    <input type="email" id="email" class="form-input" placeholder="name@example.com" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="password">รหัสผ่าน</label>
+                    <input type="password" id="password" class="form-input" placeholder="••••••••" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="confirmPassword">ยืนยันรหัสผ่าน</label>
+                    <input type="password" id="confirmPassword" class="form-input" placeholder="••••••••" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block btn-lg">สมัครสมาชิก</button>
+            </form>
+            <div class="auth-footer">
+                มีบัญชีแล้ว? <a href="login.html">เข้าสู่ระบบ</a>
+            </div>
+        </div>
+    </div>
+    <script src="../../js/api.js"></script>
+    <script>
+        document.getElementById('registerForm').addEventListener('submit', async function (e) {
+            e.preventDefault();
+            const name = document.getElementById('name').value.trim();
+            const email = document.getElementById('email').value.trim().toLowerCase();
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+
+            if (password !== confirmPassword) {
+                Swal.fire({ icon: 'error', title: 'รหัสผ่านไม่ตรงกัน', text: 'กรุณากรอกรหัสผ่านให้ตรงกันทั้งสองช่อง' });
+                return;
+            }
+
+            const submitBtn = this.querySelector('button[type="submit"]');
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'กำลังสมัครสมาชิก...';
+
+            try {
+                const data = await auth.register(name, email, password);
+                await Swal.fire({ icon: 'success', title: 'สมัครสมาชิกสำเร็จ!', text: 'ยินดีต้อนรับ ' + data.user.name, timer: 1500, showConfirmButton: false });
+                window.location.href = '../user/dashboard.html';
+            } catch (error) {
+                Swal.fire({ icon: 'error', title: 'สมัครสมาชิกไม่สำเร็จ', text: error.message });
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'สมัครสมาชิก';
+            }
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="ค้นหาคอร์สเรียน - PREP HUB">
+    <title>ค้นหาคอร์ส - PREP HUB</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&family=Prompt:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="../css/design-system.css">
+    <link rel="stylesheet" href="../css/home.css">
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-content">
+                <div class="navbar-brand">
+                    <a href="../index.html" class="logo">
+                        <span class="logo-icon">📚</span>
+                        <span class="logo-text">PREP HUB</span>
+                    </a>
+                </div>
+
+                <div class="navbar-menu">
+                    <a href="../index.html" class="nav-link">หน้าหลัก</a>
+                    <a href="courses/m6.html" class="nav-link">คอร์สเรียน</a>
+                    <a href="about.html" class="nav-link">เกี่ยวกับเรา</a>
+                    <a href="contact.html" class="nav-link">ติดต่อเรา</a>
+                </div>
+
+                <div class="navbar-actions" id="navbarActions">
+                    <a href="auth/login.html" class="btn btn-ghost btn-sm">เข้าสู่ระบบ</a>
+                    <a href="auth/register.html" class="btn btn-primary btn-sm">สมัครสมาชิก</a>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <button class="mobile-menu-btn" id="mobileMenuBtn">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu Overlay -->
+    <div class="mobile-menu-overlay" id="mobileMenuOverlay"></div>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <div class="mobile-menu-header">
+            <div class="logo">
+                <span class="logo-icon">📚</span>
+                <span class="logo-text">PREP HUB</span>
+            </div>
+            <button class="mobile-menu-close" id="mobileMenuClose">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+        </div>
+
+        <nav class="mobile-menu-nav">
+            <a href="../index.html" class="mobile-nav-link">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                    <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                </svg>
+                หน้าหลัก
+            </a>
+            <a href="courses/m6.html" class="mobile-nav-link">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"></path>
+                </svg>
+                คอร์สเรียน
+            </a>
+            <a href="about.html" class="mobile-nav-link">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="12" y1="16" x2="12" y2="12"></line>
+                    <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                </svg>
+                เกี่ยวกับเรา
+            </a>
+        </nav>
+
+        <div class="mobile-menu-actions" id="mobileMenuActions">
+            <a href="auth/login.html" class="btn btn-secondary">เข้าสู่ระบบ</a>
+            <a href="auth/register.html" class="btn btn-primary">สมัครสมาชิก</a>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero" style="padding: 80px 0 40px;">
+        <div class="hero-background"></div>
+        <div class="container">
+            <div class="hero-content" style="text-align: center;">
+                <div class="hero-badge animate-fadeIn">
+                    <span class="badge badge-primary">🔍 ค้นหาคอร์ส</span>
+                </div>
+                <h1 class="hero-title animate-fadeIn" style="font-size: 2.5rem;">ค้นหาคอร์สเรียน</h1>
+                <p class="hero-subtitle animate-fadeIn">ค้นหาคอร์สที่ใช่สำหรับคุณ จากหลากหลายสถาบันชั้นนำ</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Search Section -->
+    <section style="padding: 0 0 60px;">
+        <div class="container" style="max-width: 700px;">
+            <div
+                style="display: flex; gap: 12px; background: white; padding: 8px; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.1);">
+                <input type="text" id="searchInput" placeholder="ค้นหาชื่อคอร์ส, วิชา, หรือสถาบัน..."
+                    style="flex: 1; padding: 16px 20px; border: none; font-size: 1rem; outline: none; font-family: inherit; border-radius: 12px;">
+                <button id="searchBtn" class="btn btn-primary" style="padding: 16px 32px;">
+                    🔍 ค้นหา
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Results Section -->
+    <section style="padding: 0 0 80px;">
+        <div class="container">
+            <div id="searchResults"
+                style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 24px;">
+                <!-- Results will be injected here -->
+                <div style="grid-column: 1/-1; text-align: center; padding: 40px; color: #6b7280;">
+                    <div style="font-size: 3rem; margin-bottom: 16px;">🔍</div>
+                    <p>พิมพ์คำค้นหาเพื่อเริ่มต้น</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer style="background: #111827; color: white; padding: 40px 0;">
+        <div class="container" style="text-align: center;">
+            <div class="logo" style="justify-content: center; margin-bottom: 16px;">
+                <span class="logo-icon">📚</span>
+                <span class="logo-text" style="color: white;">PREP HUB</span>
+            </div>
+            <p style="color: #9ca3af;">© 2024 PREP HUB - รวมคอร์สติวทุกที่ ไว้ที่เดียว</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="../js/api.js"></script>
+    <script src="../js/app.js"></script>
+    <script>
+        // Check URL params for query
+        const urlParams = new URLSearchParams(window.location.search);
+        const query = urlParams.get('q');
+        if (query) {
+            document.getElementById('searchInput').value = query;
+            performSearch(query);
+        }
+
+        // Search button click
+        document.getElementById('searchBtn').addEventListener('click', () => {
+            const val = document.getElementById('searchInput').value.trim();
+            if (val) performSearch(val);
+        });
+
+        // Enter key
+        document.getElementById('searchInput').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                const val = document.getElementById('searchInput').value.trim();
+                if (val) performSearch(val);
+            }
+        });
+
+        async function performSearch(term) {
+            const container = document.getElementById('searchResults');
+            container.innerHTML = `
+                <div style="grid-column: 1/-1; text-align: center; padding: 40px;">
+                    <div style="font-size: 2rem;">🔄</div>
+                    <p style="color: #6b7280;">กำลังค้นหา...</p>
+                </div>
+            `;
+
+            try {
+                const response = await courses.search(term);
+                const results = response.courses || response || [];
+
+                if (results.length === 0) {
+                    container.innerHTML = `
+                        <div style="grid-column: 1/-1; text-align: center; padding: 60px;">
+                            <div style="font-size: 3rem; margin-bottom: 16px;">📭</div>
+                            <p style="color: #6b7280; font-size: 1.125rem;">ไม่พบคอร์สที่ค้นหา "${term}"</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                container.innerHTML = results.map(course => `
+                    <div class="card-course" style="background: white; border-radius: 16px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.05); transition: transform 0.2s, box-shadow 0.2s;">
+                        <div style="height: 160px; background: linear-gradient(135deg, #0284c7, #0ea5e9); display: flex; align-items: center; justify-content: center;">
+                            <span style="font-size: 3rem;">📚</span>
+                        </div>
+                        <div style="padding: 20px;">
+                            <div style="display: flex; gap: 8px; margin-bottom: 12px;">
+                                <span class="badge badge-primary">${course.category || 'ม.6'}</span>
+                                <span class="badge badge-gray">${course.subject || 'วิชา'}</span>
+                            </div>
+                            <h3 style="font-size: 1.125rem; font-weight: 600; color: #111827; margin-bottom: 8px;">${course.title}</h3>
+                            <div style="color: #6b7280; font-size: 0.875rem; margin-bottom: 12px;">
+                                <span>📍 ${course.brand || 'สถาบัน'}</span> · 
+                                <span>👤 ${course.teacher || 'อาจารย์'}</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <div style="font-size: 1.25rem; font-weight: 700; color: #0284c7;">฿${(course.price || 0).toLocaleString()}</div>
+                                <button class="btn btn-primary btn-sm" onclick="alert('ดูรายละเอียดคอร์ส ID: ${course.id}')">ดูรายละเอียด</button>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+
+            } catch (e) {
+                console.error(e);
+                container.innerHTML = `
+                    <div style="grid-column: 1/-1; text-align: center; padding: 60px;">
+                        <div style="font-size: 3rem; margin-bottom: 16px;">❌</div>
+                        <p style="color: #ef4444;">เกิดข้อผิดพลาดในการค้นหา</p>
+                        <p style="color: #6b7280; font-size: 0.875rem;">${e.message}</p>
+                    </div>
+                `;
+            }
+        }
+    </script>
+</body>
+
+</html>

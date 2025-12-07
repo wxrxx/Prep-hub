@@ -14,11 +14,24 @@ async function initializeDatabase() {
             name TEXT NOT NULL,
             email TEXT UNIQUE NOT NULL,
             password TEXT NOT NULL,
+            phone TEXT,
             role TEXT DEFAULT 'user',
             avatar TEXT DEFAULT '👤',
             created_at DATETIME DEFAULT CURRENT_TIMESTAMP
         )
     `);
+
+    // Migration: Add phone column if it doesn't exist
+    try {
+        const tableInfo = db.prepare('PRAGMA table_info(users)').all();
+        const hasPhone = tableInfo.some(col => col.name === 'phone');
+        if (!hasPhone) {
+            console.log('🔄 Migrating: Adding phone column to users table...');
+            db.exec('ALTER TABLE users ADD COLUMN phone TEXT');
+        }
+    } catch (error) {
+        console.error('Migration error:', error);
+    }
 
     // Create Courses table
     db.exec(`
@@ -66,6 +79,19 @@ async function initializeDatabase() {
             description TEXT,
             logo TEXT,
             courses_count INTEGER DEFAULT 0,
+            created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+        )
+    `);
+
+    // Create Messages table
+    db.exec(`
+        CREATE TABLE IF NOT EXISTS messages (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT NOT NULL,
+            email TEXT NOT NULL,
+            subject TEXT NOT NULL,
+            message TEXT NOT NULL,
+            status TEXT DEFAULT 'unread',
             created_at DATETIME DEFAULT CURRENT_TIMESTAMP
         )
     `);
