@@ -5,12 +5,12 @@
 const express = require('express');
 const router = express.Router();
 const db = require('../config/database');
-const authMiddleware = require('../middleware/auth');
+const { authenticateToken } = require('../middleware/auth');
 
 // ============================================
 // GET /api/messages - Get all messages (Admin only)
 // ============================================
-router.get('/', authMiddleware, (req, res) => {
+router.get('/', authenticateToken, (req, res) => {
     try {
         // Check admin role
         if (req.user.role !== 'admin') {
@@ -33,7 +33,7 @@ router.get('/', authMiddleware, (req, res) => {
 // ============================================
 // PUT /api/messages/:id/read - Mark as read
 // ============================================
-router.put('/:id/read', authMiddleware, (req, res) => {
+router.put('/:id/read', authenticateToken, (req, res) => {
     try {
         if (req.user.role !== 'admin') {
             return res.status(403).json({ error: 'ไม่มีสิทธิ์เข้าถึง' });
@@ -53,7 +53,7 @@ router.put('/:id/read', authMiddleware, (req, res) => {
 // ============================================
 // DELETE /api/messages/:id - Delete message
 // ============================================
-router.delete('/:id', authMiddleware, (req, res) => {
+router.delete('/:id', authenticateToken, (req, res) => {
     try {
         if (req.user.role !== 'admin') {
             return res.status(403).json({ error: 'ไม่มีสิทธิ์เข้าถึง' });
