@@ -76,6 +76,8 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 24px;
+            flex-wrap: wrap;
+            gap: 16px;
         }
 
         .admin-title {
@@ -154,6 +156,213 @@
             font-size: 0.875rem;
         }
 
+        /* Premium Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(8px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            padding: 20px;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px) scale(0.95);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 24px;
+            max-width: 600px;
+            width: 100%;
+            max-height: 90vh;
+            overflow: hidden;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            animation: slideUp 0.3s ease;
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, #0284c7, #0ea5e9);
+            padding: 24px 28px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .modal-close {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            color: white;
+            font-size: 1.25rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-close:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: rotate(90deg);
+        }
+
+        .modal-body {
+            padding: 28px;
+            overflow-y: auto;
+            max-height: calc(90vh - 80px);
+        }
+
+        .user-detail-header {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 24px;
+            padding-bottom: 24px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .user-detail-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #0284c7, #0ea5e9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2rem;
+            font-weight: 600;
+        }
+
+        .user-detail-avatar img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .user-detail-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #111827;
+            margin-bottom: 4px;
+        }
+
+        .user-detail-email {
+            color: #6b7280;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .info-card {
+            background: #f9fafb;
+            border-radius: 12px;
+            padding: 16px;
+        }
+
+        .info-label {
+            font-size: 0.75rem;
+            color: #6b7280;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 4px;
+        }
+
+        .info-value {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: #111827;
+        }
+
+        .section-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .favorites-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .favorite-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            background: #f9fafb;
+            border-radius: 12px;
+        }
+
+        .favorite-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            background: linear-gradient(135deg, #0284c7, #0ea5e9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.25rem;
+        }
+
+        .favorite-info h4 {
+            font-weight: 500;
+            color: #111827;
+            margin-bottom: 2px;
+        }
+
+        .favorite-info p {
+            font-size: 0.875rem;
+            color: #6b7280;
+        }
+
+        .empty-favorites {
+            text-align: center;
+            padding: 24px;
+            color: #9ca3af;
+        }
+
         @media (max-width: 768px) {
             .admin-sidebar {
                 display: none;
@@ -161,6 +370,10 @@
 
             .admin-main {
                 margin-left: 0;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -185,10 +398,8 @@
         <main class="admin-main">
             <div class="admin-header">
                 <h1 class="admin-title">👥 จัดการผู้ใช้งาน</h1>
-                <div style="display: flex; gap: 12px;">
-                    <input type="text" id="searchInput" class="form-input" placeholder="ค้นหาผู้ใช้..."
-                        style="width: 250px;">
-                </div>
+                <input type="text" id="searchInput" class="form-input" placeholder="🔍 ค้นหาผู้ใช้..."
+                    style="width: 280px;">
             </div>
             <table class="data-table">
                 <thead>
@@ -208,6 +419,19 @@
                 </tbody>
             </table>
         </main>
+    </div>
+
+    <!-- User Detail Modal -->
+    <div class="modal-overlay" id="userModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">👤 ข้อมูลผู้ใช้งาน</h2>
+                <button class="modal-close" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body" id="userDetailBody">
+                <!-- Dynamic content -->
+            </div>
+        </div>
     </div>
 
     <script src="../../js/api.js"></script>
@@ -258,12 +482,92 @@
                     <td><span class="badge-role ${u.role === 'admin' ? 'badge-admin' : 'badge-user'}">${u.role === 'admin' ? '👑 Admin' : '👤 User'}</span></td>
                     <td>${new Date(u.created_at).toLocaleDateString('th-TH')}</td>
                     <td>
-                        <button class="btn btn-ghost btn-sm" onclick="changeRole(${u.id}, '${u.role}')">🔄</button>
-                        <button class="btn btn-ghost btn-sm" onclick="deleteUser(${u.id}, '${u.name}')">🗑️</button>
+                        <button class="btn btn-ghost btn-sm" onclick="viewUser(${u.id})" title="ดูรายละเอียด">👁️</button>
+                        <button class="btn btn-ghost btn-sm" onclick="changeRole(${u.id}, '${u.role}')" title="เปลี่ยนสิทธิ์">🔄</button>
+                        <button class="btn btn-ghost btn-sm" onclick="deleteUser(${u.id}, '${u.name}')" title="ลบ">🗑️</button>
                     </td>
                 </tr>
             `).join('');
         }
+
+        async function viewUser(id) {
+            const body = document.getElementById('userDetailBody');
+            body.innerHTML = '<div style="text-align:center;padding:40px;">🔄 กำลังโหลด...</div>';
+            document.getElementById('userModal').classList.add('active');
+
+            try {
+                const response = await api.get(`/api/users/${id}`);
+                const user = response.user;
+                const favorites = response.favorites || [];
+
+                const avatarHtml = user.avatar && (user.avatar.startsWith('data:') || user.avatar.startsWith('http'))
+                    ? `<img src="${user.avatar}" alt="${user.name}">`
+                    : user.name ? user.name.substring(0, 2).toUpperCase() : '??';
+
+                body.innerHTML = `
+                    <div class="user-detail-header">
+                        <div class="user-detail-avatar">${avatarHtml}</div>
+                        <div>
+                            <div class="user-detail-name">${user.name}</div>
+                            <div class="user-detail-email">${user.email}</div>
+                        </div>
+                    </div>
+
+                    <div class="info-grid">
+                        <div class="info-card">
+                            <div class="info-label">User ID</div>
+                            <div class="info-value">#${user.id}</div>
+                        </div>
+                        <div class="info-card">
+                            <div class="info-label">สิทธิ์</div>
+                            <div class="info-value">${user.role === 'admin' ? '👑 Admin' : '👤 User'}</div>
+                        </div>
+                        <div class="info-card">
+                            <div class="info-label">วันที่สมัคร</div>
+                            <div class="info-value">${new Date(user.created_at).toLocaleDateString('th-TH', { year: 'numeric', month: 'long', day: 'numeric' })}</div>
+                        </div>
+                        <div class="info-card">
+                            <div class="info-label">คอร์สที่บันทึก</div>
+                            <div class="info-value">${favorites.length} คอร์ส</div>
+                        </div>
+                    </div>
+
+                    <div class="section-title">❤️ คอร์สที่บันทึกไว้</div>
+                    ${favorites.length > 0 ? `
+                        <div class="favorites-list">
+                            ${favorites.map(f => `
+                                <div class="favorite-item">
+                                    <div class="favorite-icon">📚</div>
+                                    <div class="favorite-info">
+                                        <h4>${f.title}</h4>
+                                        <p>${f.brand || '-'} · ฿${(f.price || 0).toLocaleString()}</p>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    ` : `
+                        <div class="empty-favorites">
+                            <div style="font-size: 2rem; margin-bottom: 8px;">📭</div>
+                            ยังไม่มีคอร์สที่บันทึก
+                        </div>
+                    `}
+                `;
+            } catch (e) {
+                body.innerHTML = '<div style="text-align:center;padding:40px;color:#ef4444;">❌ โหลดข้อมูลไม่สำเร็จ</div>';
+            }
+        }
+
+        function closeModal() {
+            document.getElementById('userModal').classList.remove('active');
+        }
+
+        document.getElementById('userModal').addEventListener('click', (e) => {
+            if (e.target === e.currentTarget) closeModal();
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeModal();
+        });
 
         async function changeRole(id, currentRole) {
             const newRole = currentRole === 'admin' ? 'user' : 'admin';
@@ -278,10 +582,10 @@
             if (result.isConfirmed) {
                 try {
                     await api.put(`/api/users/${id}/role`, { role: newRole });
-                    Swal.fire('สำเร็จ', 'เปลี่ยนสิทธิ์แล้ว', 'success');
+                    Swal.fire({ icon: 'success', title: 'เปลี่ยนสิทธิ์สำเร็จ', timer: 1500, showConfirmButton: false });
                     loadUsers();
                 } catch (err) {
-                    Swal.fire('เกิดข้อผิดพลาด', err.message, 'error');
+                    Swal.fire({ icon: 'error', title: 'เกิดข้อผิดพลาด', text: err.message });
                 }
             }
         }
@@ -292,16 +596,17 @@
                 text: `ลบผู้ใช้ "${name}" ถาวร`,
                 icon: 'warning',
                 showCancelButton: true,
-                confirmButtonText: 'ลบ',
+                confirmButtonColor: '#ef4444',
+                confirmButtonText: '🗑️ ลบ',
                 cancelButtonText: 'ยกเลิก'
             });
             if (result.isConfirmed) {
                 try {
                     await api.delete(`/api/users/${id}`);
-                    Swal.fire('ลบสำเร็จ', '', 'success');
+                    Swal.fire({ icon: 'success', title: 'ลบสำเร็จ', timer: 1500, showConfirmButton: false });
                     loadUsers();
                 } catch (err) {
-                    Swal.fire('เกิดข้อผิดพลาด', err.message, 'error');
+                    Swal.fire({ icon: 'error', title: 'เกิดข้อผิดพลาด', text: err.message });
                 }
             }
         }

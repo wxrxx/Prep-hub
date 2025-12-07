@@ -4,64 +4,484 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>รายการโปรด - PREP HUB</title>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&family=Prompt:wght@300;400;500;600;700&display=swap"
-        rel="stylesheet">
+    <title>คอร์สที่บันทึก - PREP HUB</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../../css/design-system.css">
-    <link rel="stylesheet" href="../../css/pages/dashboard.css">
+    <link rel="stylesheet" href="../../css/home.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Kanit', sans-serif;
+            background: #f9fafb;
+            min-height: 100vh;
+        }
+
+        .dashboard-layout {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: 280px;
+            background: linear-gradient(180deg, #111827, #1f2937);
+            color: white;
+            padding: 32px 24px;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .sidebar-header {
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .sidebar-logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 24px;
+            text-decoration: none;
+        }
+
+        .sidebar-logo .logo-icon {
+            font-size: 2rem;
+        }
+
+        .sidebar-logo .logo-text {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #0ea5e9, #38bdf8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .user-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .user-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #0284c7, #0ea5e9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 12px;
+            font-size: 2rem;
+            font-weight: 600;
+            color: white;
+            border: 3px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .user-avatar img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .user-name {
+            font-weight: 600;
+            font-size: 1.125rem;
+            margin-bottom: 4px;
+        }
+
+        .user-email {
+            color: #9ca3af;
+            font-size: 0.875rem;
+        }
+
+        .sidebar-nav {
+            margin-top: 32px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 18px;
+            border-radius: 12px;
+            color: #9ca3af;
+            text-decoration: none;
+            margin-bottom: 8px;
+            transition: all 0.2s;
+        }
+
+        .nav-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        .nav-item.active {
+            background: linear-gradient(135deg, #0284c7, #0ea5e9);
+            color: white;
+            box-shadow: 0 4px 15px rgba(2, 132, 199, 0.4);
+        }
+
+        .nav-icon {
+            font-size: 1.25rem;
+        }
+
+        .nav-divider {
+            height: 1px;
+            background: rgba(255, 255, 255, 0.1);
+            margin: 24px 0;
+        }
+
+        .main-content {
+            flex: 1;
+            margin-left: 280px;
+            padding: 32px 40px;
+        }
+
+        .page-header {
+            margin-bottom: 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .page-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #111827;
+        }
+
+        .page-subtitle {
+            color: #6b7280;
+        }
+
+        .favorites-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 24px;
+        }
+
+        .course-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s;
+        }
+
+        .course-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+        }
+
+        .course-image {
+            height: 160px;
+            background: linear-gradient(135deg, #0284c7, #0ea5e9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            position: relative;
+        }
+
+        .course-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .remove-btn {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: white;
+            border: none;
+            font-size: 1rem;
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            transition: all 0.2s;
+        }
+
+        .remove-btn:hover {
+            background: #fee2e2;
+            transform: scale(1.1);
+        }
+
+        .course-body {
+            padding: 20px;
+        }
+
+        .course-badges {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .badge {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .badge-primary {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .badge-gray {
+            background: #f3f4f6;
+            color: #374151;
+        }
+
+        .course-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: #111827;
+            margin-bottom: 8px;
+            line-height: 1.4;
+        }
+
+        .course-meta {
+            color: #6b7280;
+            font-size: 0.875rem;
+            margin-bottom: 12px;
+        }
+
+        .course-price {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #0284c7;
+            margin-bottom: 16px;
+        }
+
+        .btn-view {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #0284c7, #0ea5e9);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+
+        .btn-view:hover {
+            box-shadow: 0 4px 15px rgba(2, 132, 199, 0.4);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 80px 20px;
+        }
+
+        .empty-icon {
+            font-size: 5rem;
+            margin-bottom: 24px;
+        }
+
+        .empty-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #111827;
+            margin-bottom: 8px;
+        }
+
+        .empty-desc {
+            color: #6b7280;
+            margin-bottom: 24px;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                display: none;
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: 20px;
+            }
+        }
+    </style>
 </head>
 
 <body>
-    <div class="dashboard-container">
+    <div class="dashboard-layout">
         <aside class="sidebar">
             <div class="sidebar-header">
-                <a href="../../index.html" class="logo">
+                <a href="../../index.html" class="sidebar-logo">
                     <span class="logo-icon">📚</span>
                     <span class="logo-text">PREP HUB</span>
                 </a>
+                <div class="user-card">
+                    <div class="user-avatar" id="userAvatar">US</div>
+                    <div class="user-name" id="userName">Loading...</div>
+                    <div class="user-email" id="userEmail">-</div>
+                </div>
             </div>
+
             <nav class="sidebar-nav">
-                <a href="dashboard.html" class="nav-item">แดชบอร์ด</a>
-                <a href="favorites.html" class="nav-item active">คอร์สที่บันทึก</a>
-                <a href="profile.html" class="nav-item">ตั้งค่าบัญชี</a>
+                <a href="dashboard.html" class="nav-item">
+                    <span class="nav-icon">🏠</span> หน้าหลัก
+                </a>
+                <a href="favorites.html" class="nav-item active">
+                    <span class="nav-icon">❤️</span> คอร์สที่บันทึก
+                </a>
+                <a href="profile.html" class="nav-item">
+                    <span class="nav-icon">⚙️</span> ตั้งค่าบัญชี
+                </a>
+
+                <div class="nav-divider"></div>
+
+                <a href="../../index.html" class="nav-item">
+                    <span class="nav-icon">🔙</span> กลับหน้าเว็บ
+                </a>
+                <a href="#" class="nav-item" onclick="logout()">
+                    <span class="nav-icon">🚪</span> ออกจากระบบ
+                </a>
             </nav>
         </aside>
+
         <main class="main-content">
-            <header class="topbar">
-                <h1>คอร์สที่บันทึกไว้</h1>
-            </header>
-            <div id="favoritesGrid" class="courses-grid">
-                <!-- Favorites loaded here -->
-                <p>กำลังโหลด...</p>
+            <div class="page-header">
+                <div>
+                    <h1 class="page-title">❤️ คอร์สที่บันทึกไว้</h1>
+                    <p class="page-subtitle">คอร์สที่คุณสนใจและบันทึกไว้เพื่อดูภายหลัง</p>
+                </div>
+                <span id="favCount"
+                    style="background: #dbeafe; color: #1e40af; padding: 8px 16px; border-radius: 20px; font-weight: 500;">0
+                    คอร์ส</span>
+            </div>
+
+            <div class="favorites-grid" id="favoritesGrid">
+                <div style="grid-column: 1/-1; text-align: center; padding: 60px;">
+                    <div style="font-size: 3rem;">🔄</div>
+                    <p style="color: #6b7280;">กำลังโหลด...</p>
+                </div>
             </div>
         </main>
     </div>
+
     <script src="../../js/api.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
-        if (!auth.isLoggedIn()) window.location.href = '../auth/login.html';
+        document.addEventListener('DOMContentLoaded', async () => {
+            if (!auth.isLoggedIn()) {
+                window.location.href = '../auth/login.html';
+                return;
+            }
+
+            const user = auth.getUser();
+            document.getElementById('userName').textContent = user.name || 'User';
+            document.getElementById('userEmail').textContent = user.email || '-';
+
+            const initials = user.name ? user.name.substring(0, 2).toUpperCase() : 'US';
+            const avatarEl = document.getElementById('userAvatar');
+            if (user.avatar && (user.avatar.startsWith('data:') || user.avatar.startsWith('http'))) {
+                avatarEl.innerHTML = `<img src="${user.avatar}" alt="${user.name}">`;
+            } else {
+                avatarEl.textContent = initials;
+            }
+
+            loadFavorites();
+        });
 
         async function loadFavorites() {
+            const grid = document.getElementById('favoritesGrid');
+
             try {
                 const favs = await favorites.getAll();
-                const container = document.getElementById('favoritesGrid');
+                document.getElementById('favCount').textContent = `${favs.length} คอร์ส`;
+
                 if (favs.length === 0) {
-                    container.innerHTML = '<p>ยังไม่มีคอร์สที่บันทึก</p>';
+                    grid.innerHTML = `
+                        <div class="empty-state" style="grid-column: 1/-1;">
+                            <div class="empty-icon">💔</div>
+                            <h2 class="empty-title">ยังไม่มีคอร์สที่บันทึก</h2>
+                            <p class="empty-desc">เริ่มค้นหาคอร์สที่คุณสนใจและกดบันทึกเพื่อดูภายหลัง</p>
+                            <a href="../courses/m6.html" class="btn btn-primary">ค้นหาคอร์สเรียน</a>
+                        </div>
+                    `;
                     return;
                 }
-                container.innerHTML = favs.map(c => `
-                    <div class="card-course">
-                        <div class="card-course-body">
-                            <h3>${c.title}</h3>
-                            <button class="btn btn-sm btn-danger" onclick="removeFav(${c.id})">ลบ</button>
+
+                grid.innerHTML = favs.map(fav => {
+                    const course = fav.course || fav;
+                    return `
+                        <div class="course-card">
+                            <div class="course-image">
+                                ${course.image_url ? `<img src="${course.image_url}" alt="${course.title}">` : '📚'}
+                                <button class="remove-btn" onclick="removeFavorite(${course.id})" title="ลบออก">❌</button>
+                            </div>
+                            <div class="course-body">
+                                <div class="course-badges">
+                                    <span class="badge badge-primary">${course.category || 'คอร์สเรียน'}</span>
+                                    <span class="badge badge-gray">${course.subject || '-'}</span>
+                                </div>
+                                <h3 class="course-title">${course.title}</h3>
+                                <div class="course-meta">📍 ${course.brand || '-'} · 👤 ${course.teacher || '-'}</div>
+                                <div class="course-price">฿${(course.price || 0).toLocaleString()}</div>
+                                <button class="btn-view" onclick="viewCourse(${course.id})">ดูรายละเอียด</button>
+                            </div>
                         </div>
-                    </div>
-                `).join('');
+                    `;
+                }).join('');
+
             } catch (e) {
-                console.error(e);
+                grid.innerHTML = `
+                    <div class="empty-state" style="grid-column: 1/-1;">
+                        <div class="empty-icon">❌</div>
+                        <h2 class="empty-title">โหลดข้อมูลไม่สำเร็จ</h2>
+                        <p class="empty-desc">กรุณาลองใหม่อีกครั้ง</p>
+                    </div>
+                `;
             }
         }
-        loadFavorites();
+
+        async function removeFavorite(courseId) {
+            const result = await Swal.fire({
+                title: 'ลบออกจากรายการโปรด?',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'ลบ',
+                cancelButtonText: 'ยกเลิก'
+            });
+
+            if (result.isConfirmed) {
+                try {
+                    await favorites.remove(courseId);
+                    Swal.fire({ icon: 'success', title: 'ลบแล้ว', timer: 1500, showConfirmButton: false });
+                    loadFavorites();
+                } catch (e) {
+                    Swal.fire({ icon: 'error', title: 'เกิดข้อผิดพลาด', text: e.message });
+                }
+            }
+        }
+
+        function viewCourse(id) {
+            alert('ดูคอร์ส ID: ' + id);
+        }
+
+        function logout() {
+            auth.logout();
+        }
     </script>
 </body>
 

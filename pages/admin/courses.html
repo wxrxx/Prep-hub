@@ -119,49 +119,179 @@
             font-size: 0.875rem;
         }
 
+        /* Premium Modal Styles */
         .modal-overlay {
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(0, 0, 0, 0.5);
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(8px);
             display: none;
             justify-content: center;
             align-items: center;
             z-index: 1000;
+            padding: 20px;
+            animation: fadeIn 0.2s ease;
         }
 
         .modal-overlay.active {
             display: flex;
         }
 
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px) scale(0.95);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
         .modal-content {
             background: white;
-            border-radius: 16px;
-            padding: 32px;
-            max-width: 500px;
-            width: 90%;
+            border-radius: 24px;
+            max-width: 520px;
+            width: 100%;
             max-height: 90vh;
-            overflow-y: auto;
+            overflow: hidden;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            animation: slideUp 0.3s ease;
         }
 
         .modal-header {
+            background: linear-gradient(135deg, #0284c7, #0ea5e9);
+            padding: 24px 28px;
             display: flex;
             justify-content: space-between;
-            margin-bottom: 24px;
+            align-items: center;
         }
 
         .modal-title {
             font-size: 1.25rem;
             font-weight: 600;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
         .modal-close {
-            background: none;
+            background: rgba(255, 255, 255, 0.2);
             border: none;
-            font-size: 1.5rem;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            color: white;
+            font-size: 1.25rem;
             cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-close:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: rotate(90deg);
+        }
+
+        .modal-body {
+            padding: 28px;
+            overflow-y: auto;
+            max-height: calc(90vh - 160px);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            font-weight: 500;
+            color: #374151;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+        }
+
+        .form-input,
+        .form-select {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-family: inherit;
+            transition: all 0.2s;
+            background: white;
+        }
+
+        .form-input:focus,
+        .form-select:focus {
+            outline: none;
+            border-color: #0284c7;
+            box-shadow: 0 0 0 4px rgba(2, 132, 199, 0.1);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .modal-footer {
+            padding: 20px 28px;
+            background: #f9fafb;
+            display: flex;
+            gap: 12px;
+            justify-content: flex-end;
+        }
+
+        .btn-cancel {
+            padding: 12px 24px;
+            border: 2px solid #e5e7eb;
+            background: white;
+            color: #374151;
+            border-radius: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-cancel:hover {
+            background: #f3f4f6;
+            border-color: #d1d5db;
+        }
+
+        .btn-submit {
+            padding: 12px 28px;
+            background: linear-gradient(135deg, #0284c7, #0ea5e9);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 4px 14px rgba(2, 132, 199, 0.25);
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(2, 132, 199, 0.35);
         }
 
         @media (max-width: 768px) {
@@ -171,6 +301,10 @@
 
             .admin-main {
                 margin-left: 0;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -217,49 +351,73 @@
         </main>
     </div>
 
-    <!-- Add/Edit Modal -->
+    <!-- Premium Modal -->
     <div class="modal-overlay" id="courseModal">
         <div class="modal-content">
             <div class="modal-header">
-                <h2 class="modal-title" id="modalTitle">เพิ่มคอร์สใหม่</h2>
+                <h2 class="modal-title"><span id="modalIcon">📚</span> <span id="modalTitleText">เพิ่มคอร์สใหม่</span>
+                </h2>
                 <button class="modal-close" onclick="closeModal()">&times;</button>
             </div>
             <form id="courseForm">
-                <input type="hidden" id="courseId">
-                <div class="form-group">
-                    <label class="form-label">ชื่อคอร์ส *</label>
-                    <input type="text" id="title" class="form-input" required>
+                <div class="modal-body">
+                    <input type="hidden" id="courseId">
+
+                    <div class="form-group">
+                        <label class="form-label">ชื่อคอร์ส *</label>
+                        <input type="text" id="title" class="form-input" placeholder="เช่น คณิตศาสตร์ TCAS ม.6"
+                            required>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">หมวดหมู่</label>
+                            <select id="category" class="form-input form-select">
+                                <option value="ม.6">ม.6</option>
+                                <option value="ม.4">ม.4</option>
+                                <option value="สายแพทย์">สายแพทย์</option>
+                                <option value="มหาวิทยาลัย">มหาวิทยาลัย</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">วิชา</label>
+                            <input type="text" id="subject" class="form-input" placeholder="เช่น คณิตศาสตร์">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">สถาบัน</label>
+                            <input type="text" id="brand" class="form-input" placeholder="เช่น We by The Brain">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">อาจารย์ผู้สอน</label>
+                            <input type="text" id="teacher" class="form-input" placeholder="เช่น พี่แท็ป">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">ราคา (บาท) *</label>
+                            <input type="number" id="price" class="form-input" placeholder="0" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">ราคาเดิม (ถ้ามี)</label>
+                            <input type="number" id="original_price" class="form-input" placeholder="0">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">รูปภาพ URL</label>
+                        <input type="text" id="image_url" class="form-input"
+                            placeholder="https://example.com/image.jpg">
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label class="form-label">หมวดหมู่</label>
-                    <select id="category" class="form-input">
-                        <option value="ม.6">ม.6</option>
-                        <option value="ม.4">ม.4</option>
-                        <option value="สายแพทย์">สายแพทย์</option>
-                        <option value="มหาวิทยาลัย">มหาวิทยาลัย</option>
-                    </select>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn-cancel" onclick="closeModal()">ยกเลิก</button>
+                    <button type="submit" class="btn-submit">💾 บันทึก</button>
                 </div>
-                <div class="form-group">
-                    <label class="form-label">วิชา</label>
-                    <input type="text" id="subject" class="form-input" placeholder="เช่น คณิตศาสตร์, ฟิสิกส์">
-                </div>
-                <div class="form-group">
-                    <label class="form-label">สถาบัน</label>
-                    <input type="text" id="brand" class="form-input" placeholder="เช่น We by The Brain">
-                </div>
-                <div class="form-group">
-                    <label class="form-label">อาจารย์ผู้สอน</label>
-                    <input type="text" id="teacher" class="form-input">
-                </div>
-                <div class="form-group">
-                    <label class="form-label">ราคา (บาท) *</label>
-                    <input type="number" id="price" class="form-input" required>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">รูปภาพ URL</label>
-                    <input type="text" id="image_url" class="form-input" placeholder="https://...">
-                </div>
-                <button type="submit" class="btn btn-primary" style="width:100%;">บันทึก</button>
             </form>
         </div>
     </div>
@@ -307,7 +465,8 @@
         }
 
         function openAddModal() {
-            document.getElementById('modalTitle').textContent = 'เพิ่มคอร์สใหม่';
+            document.getElementById('modalIcon').textContent = '➕';
+            document.getElementById('modalTitleText').textContent = 'เพิ่มคอร์สใหม่';
             document.getElementById('courseForm').reset();
             document.getElementById('courseId').value = '';
             document.getElementById('courseModal').classList.add('active');
@@ -316,7 +475,8 @@
         function editCourse(id) {
             const course = coursesData.find(c => c.id === id);
             if (!course) return;
-            document.getElementById('modalTitle').textContent = 'แก้ไขคอร์ส';
+            document.getElementById('modalIcon').textContent = '✏️';
+            document.getElementById('modalTitleText').textContent = 'แก้ไขคอร์ส';
             document.getElementById('courseId').value = course.id;
             document.getElementById('title').value = course.title || '';
             document.getElementById('category').value = course.category || 'ม.6';
@@ -324,6 +484,7 @@
             document.getElementById('brand').value = course.brand || '';
             document.getElementById('teacher').value = course.teacher || '';
             document.getElementById('price').value = course.price || 0;
+            document.getElementById('original_price').value = course.original_price || '';
             document.getElementById('image_url').value = course.image_url || '';
             document.getElementById('courseModal').classList.add('active');
         }
@@ -331,6 +492,16 @@
         function closeModal() {
             document.getElementById('courseModal').classList.remove('active');
         }
+
+        // Close on overlay click
+        document.getElementById('courseModal').addEventListener('click', (e) => {
+            if (e.target === e.currentTarget) closeModal();
+        });
+
+        // Close on Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeModal();
+        });
 
         document.getElementById('courseForm').addEventListener('submit', async (e) => {
             e.preventDefault();
@@ -342,21 +513,22 @@
                 brand: document.getElementById('brand').value,
                 teacher: document.getElementById('teacher').value,
                 price: parseInt(document.getElementById('price').value),
+                original_price: parseInt(document.getElementById('original_price').value) || null,
                 image_url: document.getElementById('image_url').value
             };
 
             try {
                 if (id) {
                     await api.put(`/api/courses/${id}`, data);
-                    Swal.fire('สำเร็จ', 'อัปเดตคอร์สแล้ว', 'success');
+                    Swal.fire({ icon: 'success', title: 'อัปเดตสำเร็จ', timer: 1500, showConfirmButton: false });
                 } else {
                     await api.post('/api/courses', data);
-                    Swal.fire('สำเร็จ', 'เพิ่มคอร์สใหม่แล้ว', 'success');
+                    Swal.fire({ icon: 'success', title: 'เพิ่มคอร์สสำเร็จ', timer: 1500, showConfirmButton: false });
                 }
                 closeModal();
                 loadCourses();
             } catch (err) {
-                Swal.fire('เกิดข้อผิดพลาด', err.message, 'error');
+                Swal.fire({ icon: 'error', title: 'เกิดข้อผิดพลาด', text: err.message });
             }
         });
 
@@ -366,16 +538,17 @@
                 text: 'คอร์สนี้จะถูกลบถาวร',
                 icon: 'warning',
                 showCancelButton: true,
-                confirmButtonText: 'ลบ',
+                confirmButtonColor: '#ef4444',
+                confirmButtonText: '🗑️ ลบ',
                 cancelButtonText: 'ยกเลิก'
             });
             if (result.isConfirmed) {
                 try {
                     await api.delete(`/api/courses/${id}`);
-                    Swal.fire('ลบสำเร็จ', '', 'success');
+                    Swal.fire({ icon: 'success', title: 'ลบสำเร็จ', timer: 1500, showConfirmButton: false });
                     loadCourses();
                 } catch (err) {
-                    Swal.fire('เกิดข้อผิดพลาด', err.message, 'error');
+                    Swal.fire({ icon: 'error', title: 'เกิดข้อผิดพลาด', text: err.message });
                 }
             }
         }

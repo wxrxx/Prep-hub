@@ -5,164 +5,592 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ตั้งค่าบัญชี - PREP HUB</title>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&family=Prompt:wght@300;400;500;600;700&display=swap"
-        rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../../css/design-system.css">
-    <link rel="stylesheet" href="../../css/pages/dashboard.css">
+    <link rel="stylesheet" href="../../css/home.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Kanit', sans-serif;
+            background: #f9fafb;
+            min-height: 100vh;
+        }
+
+        .dashboard-layout {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: 280px;
+            background: linear-gradient(180deg, #111827, #1f2937);
+            color: white;
+            padding: 32px 24px;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .sidebar-header {
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .sidebar-logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 24px;
+            text-decoration: none;
+        }
+
+        .sidebar-logo .logo-icon {
+            font-size: 2rem;
+        }
+
+        .sidebar-logo .logo-text {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #0ea5e9, #38bdf8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .user-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .user-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #0284c7, #0ea5e9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 12px;
+            font-size: 2rem;
+            font-weight: 600;
+            color: white;
+            border: 3px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .user-avatar img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .user-name {
+            font-weight: 600;
+            font-size: 1.125rem;
+            margin-bottom: 4px;
+        }
+
+        .user-email {
+            color: #9ca3af;
+            font-size: 0.875rem;
+        }
+
+        .sidebar-nav {
+            margin-top: 32px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 18px;
+            border-radius: 12px;
+            color: #9ca3af;
+            text-decoration: none;
+            margin-bottom: 8px;
+            transition: all 0.2s;
+        }
+
+        .nav-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        .nav-item.active {
+            background: linear-gradient(135deg, #0284c7, #0ea5e9);
+            color: white;
+            box-shadow: 0 4px 15px rgba(2, 132, 199, 0.4);
+        }
+
+        .nav-icon {
+            font-size: 1.25rem;
+        }
+
+        .nav-divider {
+            height: 1px;
+            background: rgba(255, 255, 255, 0.1);
+            margin: 24px 0;
+        }
+
+        .main-content {
+            flex: 1;
+            margin-left: 280px;
+            padding: 32px 40px;
+        }
+
+        .page-header {
+            margin-bottom: 32px;
+        }
+
+        .page-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #111827;
+            margin-bottom: 8px;
+        }
+
+        .page-subtitle {
+            color: #6b7280;
+        }
+
+        .settings-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 32px;
+        }
+
+        .settings-card {
+            background: white;
+            border-radius: 24px;
+            padding: 32px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .settings-card.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #111827;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Avatar Upload */
+        .avatar-section {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .avatar-preview {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #0284c7, #0ea5e9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 16px;
+            font-size: 3rem;
+            font-weight: 600;
+            color: white;
+            border: 4px solid #e5e7eb;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .avatar-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .avatar-upload-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            background: #f3f4f6;
+            border: 2px dashed #d1d5db;
+            border-radius: 12px;
+            color: #374151;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .avatar-upload-btn:hover {
+            background: #e5e7eb;
+            border-color: #9ca3af;
+        }
+
+        .avatar-upload-btn input {
+            display: none;
+        }
+
+        /* Form Styles */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            font-weight: 500;
+            color: #374151;
+            margin-bottom: 8px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-family: inherit;
+            transition: all 0.2s;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #0284c7;
+            box-shadow: 0 0 0 4px rgba(2, 132, 199, 0.1);
+        }
+
+        .form-input:disabled {
+            background: #f9fafb;
+            color: #9ca3af;
+        }
+
+        .btn-save {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #0284c7, #0ea5e9);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+
+        .btn-save:hover {
+            box-shadow: 0 4px 15px rgba(2, 132, 199, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .btn-danger {
+            width: 100%;
+            padding: 14px;
+            background: white;
+            color: #ef4444;
+            border: 2px solid #fecaca;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+
+        .btn-danger:hover {
+            background: #fef2f2;
+            border-color: #f87171;
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 16px 0;
+            border-bottom: 1px solid #f3f4f6;
+        }
+
+        .info-label {
+            color: #6b7280;
+        }
+
+        .info-value {
+            font-weight: 500;
+            color: #111827;
+        }
+
+        @media (max-width: 1024px) {
+            .settings-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                display: none;
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: 20px;
+            }
+        }
+    </style>
 </head>
 
 <body>
-    <div class="dashboard-container">
+    <div class="dashboard-layout">
         <aside class="sidebar">
             <div class="sidebar-header">
-                <a href="../../index.html" class="logo">
+                <a href="../../index.html" class="sidebar-logo">
                     <span class="logo-icon">📚</span>
                     <span class="logo-text">PREP HUB</span>
                 </a>
+                <div class="user-card">
+                    <div class="user-avatar" id="sidebarAvatar">US</div>
+                    <div class="user-name" id="sidebarName">Loading...</div>
+                    <div class="user-email" id="sidebarEmail">-</div>
+                </div>
             </div>
+
             <nav class="sidebar-nav">
-                <a href="dashboard.html" class="nav-item">แดชบอร์ด</a>
-                <a href="favorites.html" class="nav-item">คอร์สที่บันทึก</a>
-                <a href="profile.html" class="nav-item active">ตั้งค่าบัญชี</a>
+                <a href="dashboard.html" class="nav-item">
+                    <span class="nav-icon">🏠</span> หน้าหลัก
+                </a>
+                <a href="favorites.html" class="nav-item">
+                    <span class="nav-icon">❤️</span> คอร์สที่บันทึก
+                </a>
+                <a href="profile.html" class="nav-item active">
+                    <span class="nav-icon">⚙️</span> ตั้งค่าบัญชี
+                </a>
+
+                <div class="nav-divider"></div>
+
+                <a href="../../index.html" class="nav-item">
+                    <span class="nav-icon">🔙</span> กลับหน้าเว็บ
+                </a>
+                <a href="#" class="nav-item" onclick="logout()">
+                    <span class="nav-icon">🚪</span> ออกจากระบบ
+                </a>
             </nav>
         </aside>
+
         <main class="main-content">
-            <header class="topbar">
-                <h1>ข้อมูลส่วนตัว</h1>
-                <div class="user-profile">
-                    <span class="user-name" id="userName">User</span>
-                </div>
-            </header>
-            <div class="content-card" style="max-width: 600px;">
-                <div class="profile-headertext" style="text-align: center; margin-bottom: 2rem;">
-                    <div class="avatar-upload-container"
-                        style="position: relative; width: 100px; height: 100px; margin: 0 auto; cursor: pointer;">
-                        <input type="file" id="avatarInput" hidden accept="image/*">
-                        <div id="avatarPreview" class="avatar-circle"
-                            style="width: 100px; height: 100px; font-size: 2.5rem; background-size: cover; background-position: center;">
-                            US</div>
-                        <div class="avatar-overlay"
-                            style="position: absolute; bottom: 0; right: 0; background: #0284c7; color: white; border-radius: 50%; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; border: 2px solid white;">
-                            <span style="font-size: 14px;">📷</span>
-                        </div>
+            <div class="page-header">
+                <h1 class="page-title">⚙️ ตั้งค่าบัญชี</h1>
+                <p class="page-subtitle">จัดการข้อมูลส่วนตัวและตั้งค่าบัญชีของคุณ</p>
+            </div>
+
+            <div class="settings-grid">
+                <!-- Profile Card -->
+                <div class="settings-card">
+                    <h2 class="card-title">👤 ข้อมูลโปรไฟล์</h2>
+
+                    <div class="avatar-section">
+                        <div class="avatar-preview" id="avatarPreview">US</div>
+                        <label class="avatar-upload-btn">
+                            📷 เปลี่ยนรูปโปรไฟล์
+                            <input type="file" id="avatarInput" accept="image/*">
+                        </label>
                     </div>
-                    <p style="margin-top: 10px; color: var(--color-gray-500); font-size: 0.9rem;">คลิกที่รูปเพื่อเปลี่ยน
-                        (Max 500KB)</p>
+
+                    <form id="profileForm">
+                        <div class="form-group">
+                            <label class="form-label">ชื่อ-นามสกุล</label>
+                            <input type="text" id="nameInput" class="form-input" placeholder="กรอกชื่อของคุณ">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">อีเมล</label>
+                            <input type="email" id="emailInput" class="form-input" disabled>
+                        </div>
+                        <button type="submit" class="btn-save">💾 บันทึกการเปลี่ยนแปลง</button>
+                    </form>
                 </div>
 
-                <form id="profileForm">
-                    <div class="form-group">
-                        <label class="form-label">ชื่อ-นามสกุล</label>
-                        <input type="text" id="name" class="form-input" required>
+                <!-- Account Info Card -->
+                <div class="settings-card">
+                    <h2 class="card-title">📋 ข้อมูลบัญชี</h2>
+
+                    <div class="info-row">
+                        <span class="info-label">User ID</span>
+                        <span class="info-value" id="userId">-</span>
                     </div>
-                    <div class="form-group">
-                        <label class="form-label">อีเมล</label>
-                        <input type="email" id="email" class="form-input" readonly disabled
-                            style="background: #f5f5f5;">
+                    <div class="info-row">
+                        <span class="info-label">สิทธิ์</span>
+                        <span class="info-value" id="userRole">-</span>
                     </div>
-                    <div class="form-group">
-                        <label class="form-label">เบอร์โทรศัพท์</label>
-                        <input type="tel" id="phone" class="form-input" placeholder="08x-xxx-xxxx">
+                    <div class="info-row">
+                        <span class="info-label">วันที่สมัคร</span>
+                        <span class="info-value" id="userJoined">-</span>
                     </div>
-                    <button type="submit" class="btn btn-primary">บันทึกการเปลี่ยนแปลง</button>
-                </form>
+                    <div class="info-row">
+                        <span class="info-label">คอร์สที่บันทึก</span>
+                        <span class="info-value" id="userFavs">-</span>
+                    </div>
+
+                    <div style="margin-top: 24px;">
+                        <button class="btn-danger" onclick="confirmDelete()">🗑️ ลบบัญชีของฉัน</button>
+                    </div>
+                </div>
+
+                <!-- Change Password -->
+                <div class="settings-card full-width">
+                    <h2 class="card-title">🔐 เปลี่ยนรหัสผ่าน</h2>
+                    <form id="passwordForm"
+                        style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; align-items: end;">
+                        <div class="form-group" style="margin: 0;">
+                            <label class="form-label">รหัสผ่านปัจจุบัน</label>
+                            <input type="password" id="currentPassword" class="form-input" placeholder="••••••••">
+                        </div>
+                        <div class="form-group" style="margin: 0;">
+                            <label class="form-label">รหัสผ่านใหม่</label>
+                            <input type="password" id="newPassword" class="form-input" placeholder="••••••••">
+                        </div>
+                        <button type="submit" class="btn-save">เปลี่ยนรหัสผ่าน</button>
+                    </form>
+                </div>
             </div>
         </main>
     </div>
+
     <script src="../../js/api.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
-        if (!auth.isLoggedIn()) window.location.href = '../auth/login.html';
+        let currentUser = null;
+        let avatarBase64 = null;
 
-        let currentAvatar = '';
+        document.addEventListener('DOMContentLoaded', async () => {
+            if (!auth.isLoggedIn()) {
+                window.location.href = '../auth/login.html';
+                return;
+            }
 
-        async function loadProfile() {
-            const user = auth.getUser();
-            document.getElementById('name').value = user.name || '';
-            document.getElementById('email').value = user.email || '';
-            document.getElementById('phone').value = user.phone || '';
-            document.getElementById('userName').textContent = user.name || 'User';
+            currentUser = auth.getUser();
+            populateProfile();
+            loadFavoritesCount();
+        });
 
-            // Load avatar
-            if (user.avatar && (user.avatar.startsWith('data:') || user.avatar.startsWith('http'))) {
-                const avatarEl = document.getElementById('avatarPreview');
-                avatarEl.textContent = '';
-                avatarEl.style.backgroundImage = `url('${user.avatar}')`;
-                currentAvatar = user.avatar;
+        function populateProfile() {
+            const user = currentUser;
+
+            // Sidebar
+            document.getElementById('sidebarName').textContent = user.name || 'User';
+            document.getElementById('sidebarEmail').textContent = user.email || '-';
+
+            // Main profile
+            document.getElementById('nameInput').value = user.name || '';
+            document.getElementById('emailInput').value = user.email || '';
+            document.getElementById('userId').textContent = '#' + (user.id || '-');
+            document.getElementById('userRole').textContent = user.role === 'admin' ? '👑 Admin' : '👤 User';
+            document.getElementById('userJoined').textContent = user.created_at ? new Date(user.created_at).toLocaleDateString('th-TH') : '-';
+
+            // Avatar
+            const initials = user.name ? user.name.substring(0, 2).toUpperCase() : 'US';
+            updateAvatarDisplay(user.avatar, initials);
+        }
+
+        function updateAvatarDisplay(avatarUrl, initials) {
+            const sidebarAvatar = document.getElementById('sidebarAvatar');
+            const avatarPreview = document.getElementById('avatarPreview');
+
+            if (avatarUrl && (avatarUrl.startsWith('data:') || avatarUrl.startsWith('http'))) {
+                sidebarAvatar.innerHTML = `<img src="${avatarUrl}" alt="Avatar">`;
+                avatarPreview.innerHTML = `<img src="${avatarUrl}" alt="Avatar">`;
             } else {
-                document.getElementById('avatarPreview').textContent = user.name ? user.name.substring(0, 2).toUpperCase() : 'US';
+                sidebarAvatar.textContent = initials;
+                avatarPreview.textContent = initials;
             }
         }
-        loadProfile();
 
-        // Avatar Upload Logic
-        const avatarInput = document.getElementById('avatarInput');
-        const avatarPreview = document.getElementById('avatarPreview');
-        const avatarContainer = document.querySelector('.avatar-upload-container');
-
-        // Allow clicking the container to trigger input
-        if (avatarContainer) {
-            avatarContainer.addEventListener('click', () => avatarInput.click());
+        async function loadFavoritesCount() {
+            try {
+                const favs = await favorites.getAll();
+                document.getElementById('userFavs').textContent = `${favs.length} คอร์ส`;
+            } catch (e) {
+                document.getElementById('userFavs').textContent = '-';
+            }
         }
 
-        if (avatarInput) {
-            avatarInput.addEventListener('change', function (e) {
-                const file = e.target.files[0];
-                if (!file) return;
+        // Avatar upload
+        document.getElementById('avatarInput').addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
 
-                // Check size (500KB)
-                if (file.size > 500 * 1024) {
-                    Swal.fire('ไฟล์ใหญ่เกินไป', 'กรุณาอัปโหลดรูปภาพขนาดไม่เกิน 500KB', 'warning');
-                    return;
-                }
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                avatarBase64 = event.target.result;
+                updateAvatarDisplay(avatarBase64, 'US');
+            };
+            reader.readAsDataURL(file);
+        });
 
-                const reader = new FileReader();
-                reader.onload = function (event) {
-                    const base64 = event.target.result;
-
-                    // Optimistic UI update
-                    avatarPreview.textContent = '';
-                    avatarPreview.style.backgroundImage = `url('${base64}')`;
-                    currentAvatar = base64;
-                };
-                reader.readAsDataURL(file);
-            });
-        }
-
+        // Profile form
         document.getElementById('profileForm').addEventListener('submit', async (e) => {
             e.preventDefault();
-            const submitBtn = e.target.querySelector('button[type="submit"]');
-            const name = document.getElementById('name').value;
-            const phone = document.getElementById('phone').value;
 
-            submitBtn.disabled = true;
-            submitBtn.textContent = 'กำลังบันทึก...';
+            const name = document.getElementById('nameInput').value;
 
             try {
-                // Include avatar in update
-                await auth.updateProfile({ name, phone, avatar: currentAvatar });
+                const updateData = { name };
+                if (avatarBase64) updateData.avatar = avatarBase64;
 
-                await Swal.fire({
-                    icon: 'success',
-                    title: 'บันทึกสำเร็จ',
-                    text: 'ข้อมูลส่วนตัวของคุณได้รับการอัปเดตแล้ว',
-                    timer: 1500,
-                    showConfirmButton: false
-                });
+                await auth.updateProfile(updateData);
 
-                // Refresh topbar name
-                document.getElementById('userName').textContent = name;
+                Swal.fire({ icon: 'success', title: 'บันทึกสำเร็จ', timer: 1500, showConfirmButton: false });
+
+                // Update local user
+                currentUser = auth.getUser();
+                populateProfile();
 
             } catch (err) {
-                console.error(err);
-                Swal.fire('เกิดข้อผิดพลาด', err.message, 'error');
-            } finally {
-                submitBtn.disabled = false;
-                submitBtn.textContent = 'บันทึกการเปลี่ยนแปลง';
+                Swal.fire({ icon: 'error', title: 'เกิดข้อผิดพลาด', text: err.message });
             }
         });
+
+        // Password form
+        document.getElementById('passwordForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const currentPassword = document.getElementById('currentPassword').value;
+            const newPassword = document.getElementById('newPassword').value;
+
+            if (!currentPassword || !newPassword) {
+                Swal.fire({ icon: 'warning', title: 'กรุณากรอกข้อมูล', text: 'กรอกรหัสผ่านให้ครบ' });
+                return;
+            }
+
+            Swal.fire({ icon: 'info', title: 'ฟีเจอร์นี้ยังไม่พร้อมใช้งาน', text: 'กรุณาติดต่อ Admin' });
+        });
+
+        async function confirmDelete() {
+            const result = await Swal.fire({
+                title: 'ลบบัญชีของคุณ?',
+                text: 'การกระทำนี้ไม่สามารถย้อนกลับได้',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#ef4444',
+                confirmButtonText: '🗑️ ลบบัญชี',
+                cancelButtonText: 'ยกเลิก'
+            });
+
+            if (result.isConfirmed) {
+                Swal.fire({ icon: 'info', title: 'กรุณาติดต่อ Admin', text: 'เพื่อลบบัญชีของคุณ' });
+            }
+        }
+
+        function logout() {
+            auth.logout();
+        }
     </script>
 </body>
 
