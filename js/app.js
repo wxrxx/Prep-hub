@@ -321,6 +321,47 @@ function saveSearchHistory(query) {
 // CAROUSEL
 // ============================================
 // ============================================
+// SHARED UI COMPONENTS
+// ============================================
+window.createCourseCardHtml = function (course) {
+    return `
+        <div class="card-course">
+            <div class="course-image-wrapper loading">
+                <div class="skeleton-image"></div>
+                <img src="${course.image_url}" 
+                     alt="${course.title}" 
+                     class="card-course-image" 
+                     loading="lazy"
+                     onload="this.classList.add('loaded'); this.previousElementSibling.style.display='none'; this.parentElement.classList.remove('loading');"
+                     onerror="this.src='https://via.placeholder.com/800x450?text=No+Image'; this.classList.add('loaded'); this.previousElementSibling.style.display='none';">
+                <button class="btn-favorite" data-course-id="${course.id}">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                    </svg>
+                </button>
+            </div>
+            <div class="card-course-body">
+                <div class="course-badges">
+                    <span class="badge badge-primary">${course.category}</span>
+                    <span class="badge badge-gray">${course.subject}</span>
+                </div>
+                <h3 class="card-course-title">${course.title}</h3>
+                <div class="card-course-meta">
+                    <span>📍 ${course.brand}</span>
+                    <span>👤 ${course.teacher}</span>
+                </div>
+                <div class="course-rating">
+                    <span class="stars">⭐⭐⭐⭐⭐</span>
+                    <span class="rating-text">${course.rating} (${course.reviews_count})</span>
+                </div>
+                <div class="card-course-price">฿${course.price.toLocaleString()}</div>
+                <button class="btn btn-primary" onclick="showCourseDetail(${course.id})" style="width: 100%;">ดูรายละเอียด</button>
+            </div>
+        </div>
+    `;
+};
+
+// ============================================
 // CAROUSEL & POPULAR COURSES
 // ============================================
 async function initCarousel() {
@@ -353,44 +394,9 @@ async function initCarousel() {
         if (emptyState) emptyState.style.display = 'none';
     }
 
-    track.innerHTML = coursesData.map(course => `
-        <div class="card-course">
-            <div class="course-image-wrapper loading">
-                <div class="skeleton-image"></div>
-                <img src="${course.image_url}" 
-                     alt="${course.title}" 
-                     class="card-course-image" 
-                     loading="lazy"
-                     onload="this.classList.add('loaded'); this.previousElementSibling.style.display='none'; this.parentElement.classList.remove('loading');"
-                     onerror="this.src='https://via.placeholder.com/800x450?text=No+Image'; this.classList.add('loaded'); this.previousElementSibling.style.display='none';">
-                <button class="btn-favorite">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
-                    </svg>
-                </button>
-            </div>
-            <div class="card-course-body">
-                <div class="course-badges">
-                    <span class="badge badge-primary">${course.category}</span>
-                    <span class="badge badge-gray">${course.subject}</span>
-                </div>
-                <h3 class="card-course-title">${course.title}</h3>
-                <div class="card-course-meta">
-                    <span>📍 ${course.brand}</span>
-                    <span>👤 ${course.teacher}</span>
-                </div>
-                <div class="course-rating">
-                    <span class="stars">⭐⭐⭐⭐⭐</span>
-                    <span class="rating-text">${course.rating} (${course.reviews_count})</span>
-                </div>
-                <div class="card-course-price">฿${course.price.toLocaleString()}</div>
-                <button class="btn btn-primary" data-id="${course.id}" style="width: 100%;">ดูรายละเอียด</button>
-            </div>
-        </div>
-    `).join('');
+    track.innerHTML = coursesData.map(course => createCourseCardHtml(course)).join('');
 
-    // Re-bind buttons
-    initDetailButtons();
+    // Re-bind favorites (detail button is now inline onclick)
     initFavorites();
 
     // 3. Carousel Logic
@@ -469,7 +475,6 @@ async function initCarousel() {
     track.addEventListener('mouseleave', startAutoplay);
 
     // Initial Trigger
-    // Wait slightly for layout
     setTimeout(updateCarousel, 100);
 }
 

@@ -113,20 +113,8 @@
                     grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:60px;"><div style="font-size:3rem;">📭</div><p style="color:#6b7280;">ไม่พบคอร์สในหมวดหมู่นี้</p></div>';
                     return;
                 }
-                grid.innerHTML = list.map(c => `
-                    <div class="card-course">
-                        <div class="course-image-wrapper">
-                            <img src="${c.image_url || 'https://via.placeholder.com/400x200/10b981/ffffff?text=สายแพทย์'}" alt="${c.title}" class="card-course-image">
-                        </div>
-                        <div class="card-course-body">
-                            <div class="course-badges"><span class="badge badge-primary">${c.category}</span><span class="badge badge-gray">${c.subject}</span></div>
-                            <h3 class="card-course-title">${c.title}</h3>
-                            <div class="card-course-meta"><span>📍 ${c.brand}</span><span>👤 ${c.teacher}</span></div>
-                            <div class="card-course-price">฿${c.price.toLocaleString()}</div>
-                            <button class="btn btn-primary" style="width:100%;">ดูรายละเอียด</button>
-                        </div>
-                    </div>
-                `).join('');
+                grid.innerHTML = list.map(c => createCourseCardHtml(c)).join('');
+                if (window.initFavorites) window.initFavorites();
             } catch (e) {
                 grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:60px;color:#ef4444;">❌ โหลดข้อมูลไม่สำเร็จ</div>';
             }

@@ -170,40 +170,9 @@
                 }
 
                 // Render course cards
-                grid.innerHTML = coursesList.map(course => `
-                    <div class="card-course">
-                        <div class="course-image-wrapper">
-                            <img src="${course.image_url || 'https://via.placeholder.com/400x200/7c3aed/ffffff?text=' + encodeURIComponent(course.subject)}" 
-                                 alt="${course.title}" class="card-course-image">
-                            <button class="btn-favorite" data-course-id="${course.id}">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
-                                </svg>
-                            </button>
-                        </div>
-                        <div class="card-course-body">
-                            <div class="course-badges">
-                                <span class="badge badge-primary">${course.category}</span>
-                                <span class="badge badge-gray">${course.subject}</span>
-                            </div>
-                            <h3 class="card-course-title">${course.title}</h3>
-                            <div class="card-course-meta">
-                                <span>📍 ${course.brand}</span>
-                                <span>👤 ${course.teacher}</span>
-                                <span>⏱️ ${course.duration}</span>
-                            </div>
-                            <div class="course-rating">
-                                <span class="stars">${'⭐'.repeat(Math.round(course.rating))}</span>
-                                <span class="rating-text">${course.rating} (${course.reviews_count} รีวิว)</span>
-                            </div>
-                            <div class="card-course-price">
-                                ฿${course.price.toLocaleString()}
-                                ${course.original_price ? `<span style="text-decoration: line-through; color: #9ca3af; font-size: 0.875rem; margin-left: 8px;">฿${course.original_price.toLocaleString()}</span>` : ''}
-                            </div>
-                            <button class="btn btn-primary" style="width: 100%;" onclick="viewCourse(${course.id})">ดูรายละเอียด</button>
-                        </div>
-                    </div>
-                `).join('');
+                grid.innerHTML = coursesList.map(course => createCourseCardHtml(course)).join('');
+
+                if (window.initFavorites) window.initFavorites();
 
             } catch (error) {
                 console.error('Failed to load courses:', error);
@@ -217,9 +186,7 @@
             }
         });
 
-        function viewCourse(courseId) {
-            alert('ดูรายละเอียดคอร์ส ID: ' + courseId);
-        }
+
     </script>
 </body>
 
