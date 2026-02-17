@@ -18,45 +18,6 @@
     <link rel="stylesheet" href="css/design-system.css">
     <link rel="stylesheet" href="css/home.css">
 
-    <style>
-        /* Skeleton Loading */
-        .skeleton-card {
-            pointer-events: none;
-        }
-
-        .skeleton-image {
-            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
-            background-size: 200% 100%;
-            animation: shimmer 1.5s infinite;
-            height: 160px;
-            border-radius: 12px 12px 0 0;
-        }
-
-        .skeleton-line {
-            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
-            background-size: 200% 100%;
-            animation: shimmer 1.5s infinite;
-            border-radius: 4px;
-        }
-
-        @keyframes shimmer {
-            0% {
-                background-position: 200% 0;
-            }
-
-            100% {
-                background-position: -200% 0;
-            }
-        }
-
-        .empty-state-courses {
-            text-align: center;
-            padding: 60px 20px;
-            background: white;
-            border-radius: 16px;
-            margin-top: 20px;
-        }
-    </style>
 </head>
 
 <body>
@@ -308,66 +269,19 @@
     </footer>
 
     <!-- JavaScript -->
-    <script src="js/api.js?v=3"></script>
-    <script src="js/app.js?v=3"></script>
+    <script src="js/api.js?v=4"></script>
+    <script src="js/app.js?v=4"></script>
     <script>
-        // Load Featured Courses
-        document.addEventListener('DOMContentLoaded', async () => {
-            loadFeaturedCourses();
+        document.addEventListener('DOMContentLoaded', () => {
+            // Main init is handled in app.js or we can call it here if needed, 
+            // but app.js usually has its own listener or we can trigger specific inits
+            initCarousel(); // Call our new async init
+            initCourseManager();
+
+            // Mobile menu and other inits might be global or in app.js
         });
-
-        async function loadFeaturedCourses() {
-            const track = document.getElementById('carouselTrack');
-            const emptyState = document.getElementById('emptyStateCourses');
-            const container = document.getElementById('carouselContainer');
-
-            try {
-                const response = await fetch(API_CONFIG.BASE_URL + '/api/courses/featured');
-                const data = await response.json();
-                const courses = data.courses || [];
-
-                if (courses.length === 0) {
-                    container.style.display = 'none';
-                    emptyState.style.display = 'block';
-                    return;
-                }
-
-                container.style.display = '';
-                emptyState.style.display = 'none';
-
-                track.innerHTML = courses.map(course => `
-                    <div class="card-course">
-                        <div class="course-image-wrapper">
-                            ${course.image_url ? `<img src="${course.image_url}" alt="${course.title}" class="card-course-image">` : '<div class="skeleton-image" style="display:flex;align-items:center;justify-content:center;font-size:3rem;">📚</div>'}
-                            <button class="btn-favorite">❤️</button>
-                        </div>
-                        <div class="card-course-body">
-                            <div class="course-badges">
-                                <span class="badge badge-primary">${course.category || 'คอร์ส'}</span>
-                                <span class="badge badge-gray">${course.subject || '-'}</span>
-                            </div>
-                            <h3 class="card-course-title">${course.title}</h3>
-                            <div class="card-course-meta">
-                                <span>📍 ${course.brand || '-'}</span>
-                                <span>👤 ${course.teacher || '-'}</span>
-                            </div>
-                            <div class="course-rating">
-                                <span class="stars">⭐⭐⭐⭐⭐</span>
-                                <span class="rating-text">${course.rating || 5} (${course.reviews_count || 0} รีวิว)</span>
-                            </div>
-                            <div class="card-course-price">฿${(course.price || 0).toLocaleString()}</div>
-                            <button class="btn btn-primary" style="width: 100%;">ดูรายละเอียด</button>
-                        </div>
-                    </div>
-                `).join('');
-
-            } catch (error) {
-                console.error('Load featured courses error:', error);
-                container.style.display = 'none';
-                emptyState.style.display = 'block';
-            }
-        }
     </script>
+</body>
 </body>
 
 </html>

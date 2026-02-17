@@ -320,18 +320,84 @@ function saveSearchHistory(query) {
 // ============================================
 // CAROUSEL
 // ============================================
-function initCarousel() {
+// ============================================
+// CAROUSEL & POPULAR COURSES
+// ============================================
+async function initCarousel() {
     const track = document.getElementById('carouselTrack');
     const prevBtn = document.getElementById('carouselPrev');
     const nextBtn = document.getElementById('carouselNext');
+    const container = document.getElementById('carouselContainer');
+    const emptyState = document.getElementById('emptyStateCourses');
 
     if (!track || !prevBtn || !nextBtn) return;
 
+    // 1. Fetch Data
+    let coursesData = [];
+    try {
+        // Use getAll with a random shuffle or slice for "Popular"
+        const result = await courses.getAll();
+        // Shuffle and take 6 items for "Popular"
+        coursesData = result.courses.sort(() => 0.5 - Math.random()).slice(0, 7);
+    } catch (e) {
+        console.error('Failed to load courses:', e);
+    }
+
+    // 2. Render content
+    if (coursesData.length === 0) {
+        if (container) container.style.display = 'none';
+        if (emptyState) emptyState.style.display = 'block';
+        return;
+    } else {
+        if (container) container.style.display = 'block';
+        if (emptyState) emptyState.style.display = 'none';
+    }
+
+    track.innerHTML = coursesData.map(course => `
+        <div class="card-course">
+            <div class="course-image-wrapper loading">
+                <div class="skeleton-image"></div>
+                <img src="${course.image_url}" 
+                     alt="${course.title}" 
+                     class="card-course-image" 
+                     loading="lazy"
+                     onload="this.classList.add('loaded'); this.previousElementSibling.style.display='none'; this.parentElement.classList.remove('loading');"
+                     onerror="this.src='https://via.placeholder.com/800x450?text=No+Image'; this.classList.add('loaded'); this.previousElementSibling.style.display='none';">
+                <button class="btn-favorite">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                    </svg>
+                </button>
+            </div>
+            <div class="card-course-body">
+                <div class="course-badges">
+                    <span class="badge badge-primary">${course.category}</span>
+                    <span class="badge badge-gray">${course.subject}</span>
+                </div>
+                <h3 class="card-course-title">${course.title}</h3>
+                <div class="card-course-meta">
+                    <span>📍 ${course.brand}</span>
+                    <span>👤 ${course.teacher}</span>
+                </div>
+                <div class="course-rating">
+                    <span class="stars">⭐⭐⭐⭐⭐</span>
+                    <span class="rating-text">${course.rating} (${course.reviews_count})</span>
+                </div>
+                <div class="card-course-price">฿${course.price.toLocaleString()}</div>
+                <button class="btn btn-primary" data-id="${course.id}" style="width: 100%;">ดูรายละเอียด</button>
+            </div>
+        </div>
+    `).join('');
+
+    // Re-bind buttons
+    initDetailButtons();
+    initFavorites();
+
+    // 3. Carousel Logic
     let currentIndex = 0;
     const cards = track.querySelectorAll('.card-course');
     const totalCards = cards.length;
 
-    // Calculate cards per view based on screen size
     function getCardsPerView() {
         if (window.innerWidth < 768) return 1;
         if (window.innerWidth < 1024) return 2;
@@ -339,54 +405,52 @@ function initCarousel() {
     }
 
     let cardsPerView = getCardsPerView();
-    const maxIndex = Math.max(0, totalCards - cardsPerView);
+    let maxIndex = Math.max(0, totalCards - cardsPerView);
 
-    // Update carousel position
     function updateCarousel() {
+        // Recalculate based on current state
+        cardsPerView = getCardsPerView();
+        maxIndex = Math.max(0, totalCards - cardsPerView);
+        currentIndex = Math.min(currentIndex, maxIndex);
+
+        if (cards.length === 0) return;
+
         const cardWidth = cards[0].offsetWidth;
-        const gap = 24; // var(--space-6)
+        const gap = 24;
         const offset = -(currentIndex * (cardWidth + gap));
         track.style.transform = `translateX(${offset}px)`;
 
-        // Update button states
         prevBtn.disabled = currentIndex === 0;
         nextBtn.disabled = currentIndex >= maxIndex;
-
         prevBtn.style.opacity = currentIndex === 0 ? '0.5' : '1';
         nextBtn.style.opacity = currentIndex >= maxIndex ? '0.5' : '1';
     }
 
-    // Previous button
-    prevBtn.addEventListener('click', function () {
+    // Event Listeners
+    prevBtn.onclick = () => {
         if (currentIndex > 0) {
             currentIndex--;
             updateCarousel();
         }
-    });
+    };
 
-    // Next button
-    nextBtn.addEventListener('click', function () {
+    nextBtn.onclick = () => {
         if (currentIndex < maxIndex) {
             currentIndex++;
             updateCarousel();
         }
-    });
+    };
 
-    // Handle window resize
     let resizeTimeout;
-    window.addEventListener('resize', function () {
+    window.addEventListener('resize', () => {
         clearTimeout(resizeTimeout);
-        resizeTimeout = setTimeout(() => {
-            cardsPerView = getCardsPerView();
-            currentIndex = Math.min(currentIndex, Math.max(0, totalCards - cardsPerView));
-            updateCarousel();
-        }, 250);
+        resizeTimeout = setTimeout(updateCarousel, 250);
     });
 
-    // Auto-play (optional)
+    // Auto-play
     let autoplayInterval;
-
     function startAutoplay() {
+        if (autoplayInterval) clearInterval(autoplayInterval);
         autoplayInterval = setInterval(() => {
             if (currentIndex >= maxIndex) {
                 currentIndex = 0;
@@ -394,22 +458,19 @@ function initCarousel() {
                 currentIndex++;
             }
             updateCarousel();
-        }, 5000); // Change slide every 5 seconds
+        }, 5000);
     }
-
     function stopAutoplay() {
         clearInterval(autoplayInterval);
     }
 
-    // Start autoplay
     startAutoplay();
-
-    // Pause on hover
     track.addEventListener('mouseenter', stopAutoplay);
     track.addEventListener('mouseleave', startAutoplay);
 
-    // Initial update
-    updateCarousel();
+    // Initial Trigger
+    // Wait slightly for layout
+    setTimeout(updateCarousel, 100);
 }
 
 // ============================================
