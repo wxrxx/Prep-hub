@@ -1,0 +1,16 @@
+[debug] [2026-02-17T13:14:10.012Z] ----------------------------------------------------------------------
+[debug] [2026-02-17T13:14:10.014Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\waris\AppData\Local\npm-cache\_npx\7750544ccf494d8b\node_modules\firebase-tools\lib\bin\firebase.js deploy --only hosting
+[debug] [2026-02-17T13:14:10.015Z] CLI Version:   15.6.0
+[debug] [2026-02-17T13:14:10.015Z] Platform:      win32
+[debug] [2026-02-17T13:14:10.015Z] Node Version:  v24.13.0
+[debug] [2026-02-17T13:14:10.015Z] Time:          Tue Feb 17 2026 20:14:10 GMT+0700 (Indochina Time)
+[debug] [2026-02-17T13:14:10.015Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2026-02-17T13:14:11.701Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-02-17T13:14:11.701Z] > authorizing via signed-in user (warisxmail@gmail.com)
+[debug] [2026-02-17T13:14:11.702Z] [iam] checking project prep-hub-fc0da for permissions ["firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2026-02-17T13:14:11.703Z] Checked if tokens are valid: true, expires at: 1771336926130
+[debug] [2026-02-17T13:14:11.703Z] Checked if tokens are valid: true, expires at: 1771336926130
+[debug] [2026-02-17T13:14:11.703Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/prep-hub-fc0da:testIamPermissions [none]
+[debug] [2026-02-17T13:14:11.704Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/prep-hub-fc0da:testIamPermissions  x-goog-user-project=prep-hub-fc0da
+[debug] [2026-02-17T13:14:11.704Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/prep-hub-fc0da:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
