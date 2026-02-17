@@ -798,6 +798,138 @@ p {
     }
 }
 
+/* ============================================
+   10. FAB & MODAL (Custom)
+   ============================================ */
+
+.fab-add {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: var(--gradient-primary);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: var(--shadow-primary);
+    border: none;
+    cursor: pointer;
+    z-index: 1000;
+    transition: all var(--transition-base);
+}
+
+.fab-add:hover {
+    transform: scale(1.1) rotate(90deg);
+    box-shadow: 0 15px 35px rgba(14, 165, 233, 0.4);
+}
+
+.fab-add svg {
+    width: 32px;
+    height: 32px;
+}
+
+/* Modal Overlay */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: var(--z-modal);
+    opacity: 0;
+    visibility: hidden;
+    transition: all var(--transition-base);
+}
+
+.modal-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Modal Content */
+.modal-content {
+    background: var(--color-white);
+    width: 90%;
+    max-width: 600px;
+    max-height: 90vh;
+    border-radius: var(--radius-2xl);
+    box-shadow: var(--shadow-2xl);
+    overflow-y: auto;
+    transform: translateY(20px);
+    transition: all var(--transition-base);
+    opacity: 0;
+}
+
+.modal-overlay.active .modal-content {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.modal-header {
+    padding: var(--space-6);
+    border-bottom: 1px solid var(--color-gray-200);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    background: var(--color-white);
+    z-index: 10;
+}
+
+.modal-close {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: var(--color-gray-500);
+    transition: color var(--transition-fast);
+}
+
+.modal-close:hover {
+    color: var(--color-error);
+}
+
+.modal-body {
+    padding: var(--space-6);
+}
+
+.modal-footer {
+    padding: var(--space-6);
+    border-top: 1px solid var(--color-gray-200);
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--space-4);
+    position: sticky;
+    bottom: 0;
+    background: var(--color-white);
+    z-index: 10;
+}
+
+/* Form Grid */
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-4);
+}
+
+.form-full {
+    grid-column: 1 / -1;
+}
+
+@media (max-width: 640px) {
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
 .animate-fadeIn {
     animation: fadeIn 0.6s ease-out;
 }
